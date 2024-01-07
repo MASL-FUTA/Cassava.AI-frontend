@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:masl_futa_agric/pages/login_page.dart';
+import 'package:masl_futa_agric/pages/create_account_pages/login_page.dart';
+
 
 class SuccessPage extends StatelessWidget {
   @override
@@ -13,7 +14,8 @@ class SuccessPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Logo and success message
-            Image.asset('assets/images/Successmark.png'),
+            Image.asset('assets\images\Successmark.png'),
+            
            const Text('Password Changed!', style: TextStyle(
               fontSize: 26, fontWeight: FontWeight.w700
             ),),
