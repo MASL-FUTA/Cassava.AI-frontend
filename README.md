@@ -1,6 +1,7 @@
 # masl_futa_agric
 
-A new Flutter project.
+A MASL project to provide a bountiful harvest to farmers by providing real-time information as regards the farm, the soil, and the produce.
+![maslagric](https://github.com/damilare-d/MASL-AGRIC-FUTA/assets/83401880/8806317d-4323-4908-9172-347b09902bc8)
 
 ## Getting Started
 
