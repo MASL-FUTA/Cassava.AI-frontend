@@ -47,15 +47,13 @@ class farmWeatherContainer extends StatelessWidget {
       image: AssetImage(getWeatherImage(farm.weatherCondition.name)),
       fit: BoxFit.cover,
         ),
-        
         borderRadius: BorderRadius.circular(12),
       ),
       child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-           
+          children: [           
            const SizedBox(height: 10),
             Text(
               farm.name,
@@ -64,26 +62,26 @@ class farmWeatherContainer extends StatelessWidget {
            const SizedBox(height: 5),
             Text(
               '${farm.temperature}°C',
-              style: TextStyle(fontSize: 36,
+              style:const TextStyle(fontSize: 36,
               fontWeight: FontWeight.w600,
                color: Color(0xffC8D748)),
             ),
            const SizedBox(height: 5),
             if (farm.weatherCondition == WeatherCondition.sunny)
               Image.asset(
-                'assets/images/Sun.png', // Replace with your sunny image asset
+                'assets/images/Sun.png', 
                 height: 30,
                 width: 30,
               ),
             if (farm.weatherCondition == WeatherCondition.rainy)
               Image.asset(
-                'assets/images/Rain.png', // Replace with your rainy image asset
+                'assets/images/Rain.png', 
                 height: 30,
                 width: 30,
               ),
               if (farm.weatherCondition == WeatherCondition.windy)
               Image.asset(
-                'assets/images/Windy.png', // Replace with your rainy image asset
+                'assets/images/Windy.png', 
                 height: 30,
                 width: 30,
               ),
