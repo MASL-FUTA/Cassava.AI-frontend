@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:masl_futa_agric/pages/otp_page.dart';
+import 'package:masl_futa_agric/pages/create_account_pages/otp_page.dart';
+
 
 class ForgotPasswordPage extends StatelessWidget {
   @override

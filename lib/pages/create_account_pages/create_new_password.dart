@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:masl_futa_agric/pages/password_changed_success.dart';
+import 'package:masl_futa_agric/pages/create_account_pages/password_changed_success.dart';
+
 
 class CreateNewPasswordPage extends StatelessWidget {
   @override
@@ -22,6 +23,7 @@ class CreateNewPasswordPage extends StatelessWidget {
                 filled: true,
               ),
             ),
+            SizedBox(height: 20),
             TextFormField(
               obscureText: true,
               decoration: InputDecoration(labelText: 'Confirm Password', border: OutlineInputBorder(
@@ -40,13 +42,13 @@ class CreateNewPasswordPage extends StatelessWidget {
                     builder: (context) => SuccessPage(),
                   ));
                 },
-                child: Text('Reset Password'),
+                child: Text('Reset Password', style: TextStyle(color: Colors.white),),
                 style: ElevatedButton.styleFrom(primary: Color(0xFF026742),
                 shape: RoundedRectangleBorder(                  
                   borderRadius: BorderRadius.circular(10),                  
                 ),
-                ),
-              ),
+                ),),
+              
             ),
           ],
         ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:masl_futa_agric/pages/create_new_password.dart';
+import 'package:masl_futa_agric/pages/create_account_pages/create_new_password.dart';
+
 
 class OtpScreen extends StatelessWidget {
   @override

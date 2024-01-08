@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:masl_futa_agric/pages/login_page.dart';
+import 'package:masl_futa_agric/pages/create_account_pages/login_page.dart';
+
 
 class RegistrationPage extends StatelessWidget {
   @override

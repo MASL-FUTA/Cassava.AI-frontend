@@ -14,7 +14,7 @@ class SuccessPage extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             // Logo and success message
-            Image.asset('assets\images\Successmark.png'),
+            Image.asset('assets/images/Successmark.png'),
             
            const Text('Password Changed!', style: TextStyle(
               fontSize: 26, fontWeight: FontWeight.w700

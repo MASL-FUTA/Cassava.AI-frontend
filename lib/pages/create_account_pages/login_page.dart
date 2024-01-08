@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:masl_futa_agric/pages/create_account_pages/forget_password_page.dart';
 import 'package:masl_futa_agric/pages/create_account_pages/register_page.dart';
+import 'package:masl_futa_agric/pages/farm_pages/dashboard_page.dart';
 
 class LoginPage extends StatefulWidget {
   @override
@@ -84,6 +85,7 @@ class _LoginPageState extends State<LoginPage> {
               child: ElevatedButton(
                 onPressed: () {
                   // Implement login logic here
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardPage()));
                 },
                 child:   Text('Log In', style: TextStyle(color: Colors.white),),
                 style: ElevatedButton.styleFrom(primary: Color(0xFF026742),
