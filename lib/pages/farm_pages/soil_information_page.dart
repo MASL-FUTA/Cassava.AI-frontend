@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:masl_futa_agric/pages/farm_pages/dashboard_page.dart';
 
 class SoilInformationPage extends StatefulWidget {
   @override
@@ -65,15 +66,26 @@ class _SoilInformationPageState extends State<SoilInformationPage> {
     ),
   ),
 ),
+
+const SizedBox(height: 20,),
   
             // Other text fields as per your requirements
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text('Submit'), // Added child to ElevatedButton
-            ),
-          ],
-        ),
-      ),
-    );
+             SizedBox(
+            width: 331,
+            height: 56,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                primary: const Color(0xff026742),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
+           
+              onPressed: () { 
+                Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardPage()));
+               },
+              child: const Text('Submit', style: TextStyle(color: Colors.white),), // Added child to ElevatedButton
+            ),),],),),);
+    
   }
 }
