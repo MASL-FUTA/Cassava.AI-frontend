@@ -7,10 +7,7 @@ class FarmPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Farm farm = Farm(
-      name: 'Farm Name',
-
-  
-       temperature: 25, weatherCondition: WeatherCondition.sunny,
+      name: 'Farm Name',temperature: 25, weatherCondition: WeatherCondition.sunny,
     );
     return Scaffold(
      

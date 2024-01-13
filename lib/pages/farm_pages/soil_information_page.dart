@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:masl_futa_agric/pages/farm_pages/dashboard_page.dart';
+import 'package:masl_futa_agric/pages/farm_pages/soil_properties_page.dart';
 
 class SoilInformationPage extends StatefulWidget {
   @override
@@ -24,7 +24,7 @@ class _SoilInformationPageState extends State<SoilInformationPage> {
             fontSize: 14, fontWeight: FontWeight.w700,
             color: Color(0xff4C586F)
           ),),
-          SizedBox(height: 16),
+         const SizedBox(height: 16),
             TextFormField(
               decoration: const InputDecoration(labelText: 'Soil pH', 
               border: OutlineInputBorder(
@@ -32,7 +32,7 @@ class _SoilInformationPageState extends State<SoilInformationPage> {
               ),
               ),
             ),
-            SizedBox(height: 20,),
+          const  SizedBox(height: 20,),
             Container(
   width: 331,
   height: 56,
@@ -82,9 +82,9 @@ const SizedBox(height: 20,),
               ),
            
               onPressed: () { 
-                Navigator.push(context, MaterialPageRoute(builder: (context) => DashboardPage()));
+                Navigator.push(context, MaterialPageRoute(builder: (context) => SoilPropertyPage()));
                },
-              child: const Text('Submit', style: TextStyle(color: Colors.white),), // Added child to ElevatedButton
+              child: const Text('Proceed', style: TextStyle(color: Colors.white),), // Added child to ElevatedButton
             ),),],),),);
     
   }
