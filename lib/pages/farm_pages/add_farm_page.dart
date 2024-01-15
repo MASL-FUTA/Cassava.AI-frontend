@@ -13,10 +13,8 @@ class _AddFarmPageState extends State<AddFarmPage> {
   @override
   Widget build(BuildContext context) {
     return SafeArea(
-      child: Scaffold(
-       
-        body: Column(
-          
+      child: Scaffold(       
+        body: Column(          
           children: [
              PageIndicator(pageCount: 3, currentPage: currentPage),
             Expanded(
@@ -53,12 +51,12 @@ class PageIndicator extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(16.0),
+      padding:const EdgeInsets.all(16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(pageCount, (index) {
           return Container(
-            margin: EdgeInsets.symmetric(horizontal: 8.0),
+            margin: const EdgeInsets.symmetric(horizontal: 8.0),
             height: 7.0,
               width: 79.0,
             decoration: BoxDecoration(

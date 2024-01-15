@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:masl_futa_agric/pages/create_account_pages/login_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/farm_page.dart';
@@ -7,7 +9,8 @@ import 'package:masl_futa_agric/pages/farm_pages/farm_page.dart';
 import 'package:masl_futa_agric/pages/onboardingScreen.dart';
 
 
-void main() {
+Future<void> main() async {
+  await Hive.initFlutter();
   runApp(const MyApp());
 }
 

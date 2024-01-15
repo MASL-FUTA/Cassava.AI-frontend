@@ -1,9 +1,48 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
+
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
 
 class SoilPropertyPage extends StatefulWidget {
   @override
   _SoilPropertyPageState createState() => _SoilPropertyPageState();
 }
+
+final Box<Farm> farmBox = Hive.box<Farm>('farmBox');
+
+ Future<void> saveFarm() async {
+    Farm farm = Farm(
+      name: 'Farm Name', temperature: 25, weatherCondition: WeatherCondition.sunny,
+    );
+
+    farmBox.add(farm);
+
+    // Send data to backend
+    try {
+      final response = await http.post(
+        //to change to the backend api url
+        'your_backend_api_url' as Uri,
+        body: jsonEncode({
+          'name': farm.name,
+          'temperature': farm.temperature,
+          'weatherCondition': farm.weatherCondition,
+          // Add other fields as needed
+        }),
+        headers: {'Content-Type': 'application/json'},
+      );
+
+      if (response.statusCode == 200) {
+        print('Farm saved on the backend.');
+      } else {
+        print('Failed to save farm on the backend.');
+      }
+    } catch (e) {
+      print('Error sending data to backend: $e');
+    }
+  }
+
 
 class _SoilPropertyPageState extends State<SoilPropertyPage> {
   Map<String, String?> selectedOptions = {
@@ -90,6 +129,7 @@ class _SoilPropertyPageState extends State<SoilPropertyPage> {
                     ),
                   ),
             onPressed: () {
+              saveFarm();
               Navigator.push(context, MaterialPageRoute(builder: (context)=>SoilPropertyPage()));
             },
             child: Text('Create Farm', style: TextStyle(color: Colors.white),),
@@ -102,6 +142,9 @@ class _SoilPropertyPageState extends State<SoilPropertyPage> {
     );
   }
 }
+
+
+
 
 class SoilPropertyContainer extends StatelessWidget {
   final Question question;

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:hive/hive.dart';
 import 'package:masl_futa_agric/pages/farm_pages/add_farm_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/farm_details_page.dart';
@@ -84,6 +85,8 @@ class FarmListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+     final Box<Farm> farmBox = Hive.box<Farm>('farmBox');
+    List<Farm> farms = farmBox.values.toList();
     return Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(          
