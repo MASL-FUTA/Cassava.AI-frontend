@@ -51,8 +51,14 @@ class _SoilPropertyPageState extends State<SoilPropertyPage> {
       body: Stack(
         children:[ SingleChildScrollView(
           padding: const EdgeInsets.all(20),
+          
           child: Column(
             children: [
+               const Text('Soil Property',style: TextStyle(
+            fontSize: 14, fontWeight: FontWeight.w700,
+            color: Color(0xff4C586F)
+          ),),
+           const SizedBox(height: 16),
               for (int i = 0; i < questions.length; i++)
                 SoilPropertyContainer(
                   question: questions[i],
@@ -84,7 +90,7 @@ class _SoilPropertyPageState extends State<SoilPropertyPage> {
                     ),
                   ),
             onPressed: () {
-              // Handle button press
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>SoilPropertyPage()));
             },
             child: Text('Create Farm', style: TextStyle(color: Colors.white),),
           ),
@@ -111,10 +117,10 @@ class SoilPropertyContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: EdgeInsets.only(bottom: 16),
-      padding: EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 16),
+      padding:const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Color(0xFFF7F8F9),
+        color: const Color(0xFFF7F8F9),
         borderRadius: BorderRadius.circular(8),
         border: Border.all(color: Color(0xFF7988A4)),
       ),
@@ -123,26 +129,26 @@ class SoilPropertyContainer extends StatelessWidget {
         children: [
           Text(
             question.question,
-            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFF7988A4)),
+            style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w400, color: Color(0xFF7988A4)),
           ),
-          SizedBox(height: 10),
+         const SizedBox(height: 10),
           for (String option in question.options)
             InkWell(
               onTap: () => onOptionSelected(option),
               child: Container(
-                margin: EdgeInsets.symmetric(vertical: 5),
+                margin: const EdgeInsets.symmetric(vertical: 5),
                 child: Row(
                   children: [
                     Radio(
                       value: option,
                       groupValue: selectedOption,
                       onChanged: (value) => onOptionSelected(value as String?),
-                      activeColor: Color(0xFF026742),
+                      activeColor:const Color(0xFF026742),
 
                     ),
                     Text(
                       option,
-                      style: TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF026742)),
+                      style:const TextStyle(fontSize: 12, fontWeight: FontWeight.w400, color: Color(0xFF026742)),
                     ),
                   ],
                 ),
