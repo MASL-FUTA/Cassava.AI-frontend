@@ -5,13 +5,19 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:masl_futa_agric/pages/create_account_pages/login_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/farm_page.dart';
+import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
 
 import 'package:masl_futa_agric/pages/onboardingScreen.dart';
 
 
 Future<void> main() async {
   await Hive.initFlutter();
-  runApp(const MyApp());
+  await Hive.openBox<Farm>('farmBox');
+   Hive.registerAdapter(FarmAdapter());
+  runApp( BlocProvider(
+      create: (context) => FarmListBloc(),
+      child: const MyApp(),
+    ),);
 }
 
 class MyApp extends StatelessWidget {
@@ -20,18 +26,15 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => FarmListBloc(),
-      child: MaterialApp(
-          title: 'Flutter Demo',
-          theme: ThemeData(
-           
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-            useMaterial3: true,
-          ),
-          home: LoginPage(),
+    return MaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+         
+          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          useMaterial3: true,
         ),
-    );
+        home: LoginPage(),
+      );
   }
 }
 

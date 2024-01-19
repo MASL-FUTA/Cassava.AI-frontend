@@ -9,15 +9,19 @@ import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
 class FarmPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Farm farm = Farm(
-      name: 'Farm Name',temperature: 25, weatherCondition: WeatherCondition.sunny,
-    );
+    // Farm farm = Farm(
+    //   name: 'Farm Name',temperature: 25, weatherCondition: WeatherCondition.sunny,
+    // );
+
+   // BlocProvider.of<FarmListBloc>(context).add(FetchFarms());
+    
+
     return  BlocBuilder<FarmListBloc, FarmListState>(
         builder: (context, state) {
           if (state is EmptyFarmListState) {
-            return EmptyFarmListPage();
+            return const EmptyFarmListPage();
           } else if (state is NonEmptyFarmListState) {
-            return FarmListPage(farm: farm);
+            return FarmListPage(farms: state.farms);
           } else {
             return loadingFarmListPage();
           }
@@ -32,32 +36,33 @@ class FarmPage extends StatelessWidget {
   const EmptyFarmListPage({super.key});
      @override
       Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
-      child: Column(
-
-        children: [
-           Row(
-       mainAxisAlignment: MainAxisAlignment.spaceBetween,
-       children: [
-        const Text('Farms', style: TextStyle(fontSize:20, fontWeight:FontWeight.w700, color: Color(0xFF4C586F),),),
-         IconButton(
-           icon: const Icon(Icons.add),
-           onPressed: () {
-             // Navigate to the page for adding new farms
-             Navigator.push(
-               context,
-               MaterialPageRoute(builder: (context) => AddFarmPage()),
-             );
-           },
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(    
+          children: [
+             Row(
+         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+         children: [
+          const Text('Farms', style: TextStyle(fontSize:20, fontWeight:FontWeight.w700, color: Color(0xFF4C586F),),),
+           IconButton(
+             icon: const Icon(Icons.add),
+             onPressed: () {
+               // Navigate to the page for adding new farms
+               Navigator.push(
+                 context,
+                 MaterialPageRoute(builder: (context) => AddFarmPage()),
+               );
+             },
+           ),
+         ],
          ),
-       ],
-       ),
-          Image.asset('assets/images/peasant tools.png'),
-         const Text('No farm added yet, press the add button in the top right corner to add a new task',
-          textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, color: Color(0xFF7988A4))),
-        ],
+            Image.asset('assets/images/peasant tools.png'),
+           const Text('No farm added yet, press the add button in the top right corner to add a new task',
+            textAlign: TextAlign.center,
+            style: TextStyle(fontSize: 12,fontWeight: FontWeight.w400, color: Color(0xFF7988A4))),
+          ],
+        ),
       ),
     );
     
@@ -78,10 +83,10 @@ class FarmPage extends StatelessWidget {
 class FarmListPage extends StatelessWidget {
   const FarmListPage({
     super.key,
-    required this.farm,
+    required this.farms,
   });
 
-  final Farm farm;
+   final List <Farm> farms;
 
   @override
   Widget build(BuildContext context) {
@@ -117,7 +122,7 @@ class FarmListPage extends StatelessWidget {
                // Navigate to the full view of the farm
                Navigator.push(
                  context,
-                 MaterialPageRoute(builder: (context) => FullFarmViewPage(farm)),
+                 MaterialPageRoute(builder: (context) => FullFarmViewPage(farms[index])),
                );
              },
              child: Container(

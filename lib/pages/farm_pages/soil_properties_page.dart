@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
+import 'package:masl_futa_agric/pages/farm_pages/farm_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
 
 class SoilPropertyPage extends StatefulWidget {
@@ -10,6 +11,12 @@ class SoilPropertyPage extends StatefulWidget {
   _SoilPropertyPageState createState() => _SoilPropertyPageState();
 }
 
+Future<void> openFarmBox() async {
+  if (!Hive.isBoxOpen('farmBox')) {
+    await Hive.openBox<Farm>('farmBox');
+  }
+}
+ 
 final Box<Farm> farmBox = Hive.box<Farm>('farmBox');
 
  Future<void> saveFarm() async {
@@ -18,7 +25,7 @@ final Box<Farm> farmBox = Hive.box<Farm>('farmBox');
     );
 
     farmBox.add(farm);
-
+    print('Farm saved locally.');
     // Send data to backend
     try {
       final response = await http.post(
@@ -128,11 +135,13 @@ class _SoilPropertyPageState extends State<SoilPropertyPage> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-            onPressed: () {
+            onPressed: () async {
+              await openFarmBox();
+              print('create farm button clicked');
               saveFarm();
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>SoilPropertyPage()));
+              Navigator.push(context, MaterialPageRoute(builder: (context)=>FarmPage()));
             },
-            child: Text('Create Farm', style: TextStyle(color: Colors.white),),
+            child: const Text('Create Farm', style: TextStyle(color: Colors.white),),
           ),
         ),
       ),
