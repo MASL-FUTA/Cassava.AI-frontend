@@ -3,6 +3,8 @@
 import 'package:flutter/material.dart';
 import 'package:masl_futa_agric/pages/farm_pages/farm_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
+import 'package:masl_futa_agric/pages/farm_pages/more_screen_page.dart';
+import 'package:masl_futa_agric/pages/farm_pages/resource_page.dart';
 import 'home_page.dart';
 
 
@@ -35,8 +37,8 @@ class _DashboardPageState extends State<DashboardPage> {
     final List<Widget> children = [
     HomePage(farms: farms),
     FarmPage(),
-    Screen3(),
-    Screen4(),
+    ResourcesScreen(),
+    MoreScreen(),
   ];
 
    

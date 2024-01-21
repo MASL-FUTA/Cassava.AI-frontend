@@ -30,7 +30,7 @@ class MyApp extends StatelessWidget {
         title: 'Flutter Demo',
         theme: ThemeData(
          
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          colorScheme: ColorScheme.fromSeed(seedColor:  Color(0xFF026742)),
           useMaterial3: true,
         ),
         home: LoginPage(),
