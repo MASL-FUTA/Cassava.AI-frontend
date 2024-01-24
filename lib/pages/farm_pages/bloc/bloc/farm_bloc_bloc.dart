@@ -7,22 +7,19 @@ import 'package:meta/meta.dart';
 part 'farm_bloc_event.dart';
 part 'farm_bloc_state.dart';
 
-// class FarmBlocBloc extends Bloc<FarmBlocEvent, FarmBlocState> {
-//   FarmBlocBloc() : super(FarmBlocInitial()) {
-//     on<FarmBlocEvent>((event, emit) {
-//       // TODO: implement event handler
-//     });
-//   }
-// }
+
 
 
 
 // Bloc
 class FarmListBloc extends Bloc<FarmListEvent, FarmListState> {
   FarmListBloc() : super(EmptyFarmListState()) {
-   // add(FetchFarms()); // Add this line to trigger the initial fetch farms logic
-  }
-
+    // on<FetchFarms>((event, emit) {
+    //   add(FetchFarms());
+    // });
+    }
+   
+  
   @override
   Stream<FarmListState> mapEventToState(FarmListEvent event) async* {
     if (event is FetchFarms) {
@@ -30,6 +27,7 @@ class FarmListBloc extends Bloc<FarmListEvent, FarmListState> {
     }
   }
 
+  
   Stream<FarmListState> _mapFetchFarmsToState() async* {
     try {
       final Box<Farm> farmBox = Hive.box<Farm>('farmBox');
@@ -46,6 +44,6 @@ class FarmListBloc extends Bloc<FarmListEvent, FarmListState> {
       yield EmptyFarmListState(); // You can customize error handling based on your needs
     }
   }
-}
 
+}
 

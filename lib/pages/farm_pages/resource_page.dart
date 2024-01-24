@@ -53,7 +53,7 @@ class ResourceContainer extends StatelessWidget {
             title,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-          SizedBox(height: 8),
+        const  SizedBox(height: 8),
           Text(description),
         ],
       ),

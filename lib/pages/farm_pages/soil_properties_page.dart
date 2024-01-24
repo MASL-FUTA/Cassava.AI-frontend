@@ -19,36 +19,81 @@ Future<void> openFarmBox() async {
  
 final Box<Farm> farmBox = Hive.box<Farm>('farmBox');
 
- Future<void> saveFarm() async {
+//  Future<void> saveFarm() async {
+//     Farm farm = Farm(
+//       name: 'Farm Name', temperature: 25, weatherCondition: WeatherCondition.sunny,
+//     );
+
+//     farmBox.add(farm);
+//     print('Farm saved locally.');
+//     // Send data to backend
+//     try {
+//       final response = await http.post(
+//         //to change to the backend api url
+//         'your_backend_api_url' as Uri,
+//         body: jsonEncode({
+//           'name': farm.name,
+//           'temperature': farm.temperature,
+//           'weatherCondition': farm.weatherCondition,
+//           // Add other fields as needed
+//         }),
+//         headers: {'Content-Type': 'application/json'},
+//       );
+
+//       if (response.statusCode == 200) {
+//         print('Farm saved on the backend.');
+//       } else {
+//         print('Failed to save farm on the backend.');
+//       }
+//     } catch (e) {
+//       print('Error sending data to backend: $e');
+//     }
+//   }
+
+
+Future<bool> saveFarmLocally() async {
+  try {
     Farm farm = Farm(
       name: 'Farm Name', temperature: 25, weatherCondition: WeatherCondition.sunny,
     );
 
     farmBox.add(farm);
     print('Farm saved locally.');
-    // Send data to backend
-    try {
-      final response = await http.post(
-        //to change to the backend api url
-        'your_backend_api_url' as Uri,
-        body: jsonEncode({
-          'name': farm.name,
-          'temperature': farm.temperature,
-          'weatherCondition': farm.weatherCondition,
-          // Add other fields as needed
-        }),
-        headers: {'Content-Type': 'application/json'},
-      );
-
-      if (response.statusCode == 200) {
-        print('Farm saved on the backend.');
-      } else {
-        print('Failed to save farm on the backend.');
-      }
-    } catch (e) {
-      print('Error sending data to backend: $e');
-    }
+    return true; // Indicates successful local save
+  } catch (e) {
+    print('Error saving farm locally: $e');
+    return false; // Indicates local save failure
   }
+}
+
+Future<bool> saveFarmToBackend() async {
+  try {
+    Farm farm = Farm(
+      name: 'Farm Name', temperature: 25, weatherCondition: WeatherCondition.sunny,
+    );
+
+    final response = await http.post(
+      'your_backend_api_url' as Uri,
+      body: jsonEncode({
+        'name': farm.name,
+        'temperature': farm.temperature,
+        'weatherCondition': farm.weatherCondition,
+      }),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      print('Farm saved on the backend.');
+      return true; // Indicates successful backend save
+    } else {
+      print('Failed to save farm on the backend.');
+      return false; // Indicates backend save failure
+    }
+  } catch (e) {
+    print('Error sending data to backend: $e');
+    return false; // Indicates backend save failure due to error
+  }
+}
 
 
 class _SoilPropertyPageState extends State<SoilPropertyPage> {
@@ -135,12 +180,51 @@ class _SoilPropertyPageState extends State<SoilPropertyPage> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-            onPressed: () async {
-              await openFarmBox();
-              print('create farm button clicked');
-              saveFarm();
-              Navigator.push(context, MaterialPageRoute(builder: (context)=>FarmPage()));
-            },
+//             onPressed: () async {
+//   await openFarmBox();
+//   print('create farm button clicked');
+  
+//   // Save the farm locally and check if it was successful
+//   bool localSaveSuccess = await saveFarmLocally();
+  
+//   if (localSaveSuccess) {
+//     // Save the farm to the backend and check if it was successful
+//     bool backendSaveSuccess = await saveFarmToBackend();
+//      Navigator.push(context, MaterialPageRoute(builder: (context) => FarmPage()));
+    
+//     if (backendSaveSuccess) {
+//       // Navigate to FarmPage only if both local and backend saves were successful
+//       Navigator.push(context, MaterialPageRoute(builder: (context) => FarmPage()));
+//     } else {
+//       print('Failed to save farm on the backend.');
+//       // Handle backend save failure if needed
+//     }
+//   } else {
+//     print('Failed to save farm locally.');
+//     // Handle local save failure if needed
+//   }
+// },
+
+onPressed: () async {
+                    print('create farm button clicked');
+
+                    // Create the farm object with the selected options
+                    Farm farm = Farm(
+                      // Populate with the selected options or any other data you need
+                      name: 'Farm Name',
+                      temperature: 25,
+                      weatherCondition: WeatherCondition.sunny,
+                    );
+
+                    // Navigate to the Farms Page and pass the farm details
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => FarmPage(farm: farm),
+                      ),
+                    );
+                  },
+                
             child: const Text('Create Farm', style: TextStyle(color: Colors.white),),
           ),
         ),

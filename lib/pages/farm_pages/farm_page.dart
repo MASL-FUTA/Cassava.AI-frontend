@@ -7,14 +7,16 @@ import 'package:masl_futa_agric/pages/farm_pages/farm_details_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
 
 class FarmPage extends StatelessWidget {
+  final Farm farm ;
+
+  FarmPage({Key? key, required this.farm}) : super(key: key);
   @override
   Widget build(BuildContext context) {
     // Farm farm = Farm(
     //   name: 'Farm Name',temperature: 25, weatherCondition: WeatherCondition.sunny,
     // );
 
-   // BlocProvider.of<FarmListBloc>(context).add(FetchFarms());
-    
+   //BlocProvider.of<FarmListBloc>(context).add(FetchFarms());  
 
     return  BlocBuilder<FarmListBloc, FarmListState>(
         builder: (context, state) {

@@ -36,7 +36,7 @@ class _DashboardPageState extends State<DashboardPage> {
    // final farm1 = Farm(name: 'Farm 1', temperature: 25,  weatherCondition: WeatherCondition.rainy);
     final List<Widget> children = [
     HomePage(farms: farms),
-    FarmPage(),
+    FarmPage(farm:farms[0] ,),
     ResourcesScreen(),
     MoreScreen(),
   ];
@@ -67,35 +67,6 @@ class _DashboardPageState extends State<DashboardPage> {
 
 
 
-class Screen3 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // Implement your screen 3 UI here
-    return Container(
-      // Placeholder container, customize as needed
-      height: 150,
-      color: Colors.red,
-      child:  Center(
-        child: Text('Screen 3'),
-      ),
-    );
-  }
-}
-
-class Screen4 extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    // Implement your screen 4 UI here
-    return Container(
-      // Placeholder container, customize as needed
-      height: 150,
-      color: Colors.green,
-      child: Center(
-        child: Text('Screen 4'),
-      ),
-    );
-  }
-}
 
 
 

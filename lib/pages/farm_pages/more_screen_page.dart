@@ -12,7 +12,7 @@ class MoreScreen extends StatelessWidget {
           MoreItem(text: 'Terms and Conditions'),
           MoreItem(text: 'FAQ'),
           MoreItem(text: 'Support'),
-          SizedBox(height: 16),
+         const SizedBox(height: 16),
           ElevatedButton(
             onPressed: () {
               // Handle logout action

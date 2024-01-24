@@ -10,10 +10,11 @@ import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
 import 'package:masl_futa_agric/pages/onboardingScreen.dart';
 
 
-Future<void> main() async {
-  await Hive.initFlutter();
-  await Hive.openBox<Farm>('farmBox');
-   Hive.registerAdapter(FarmAdapter());
+void main()  {
+  // await Hive.initFlutter(); 
+  // await Hive.openBox<Farm>('farmBox');
+  // Hive.registerAdapter(FarmAdapter());
+   
   runApp( BlocProvider(
       create: (context) => FarmListBloc(),
       child: const MyApp(),

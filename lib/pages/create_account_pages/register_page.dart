@@ -1,8 +1,29 @@
 import 'package:flutter/material.dart';
 import 'package:masl_futa_agric/pages/create_account_pages/login_page.dart';
+import 'package:masl_futa_agric/service/api_service.dart';
 
 
-class RegistrationPage extends StatelessWidget {
+class RegistrationPage extends StatefulWidget {
+  @override
+  State<RegistrationPage> createState() => _RegistrationPageState();
+}
+
+class _RegistrationPageState extends State<RegistrationPage> {
+   final ApiService apiService = ApiService();
+TextEditingController nameController = TextEditingController();
+TextEditingController emailController = TextEditingController();
+TextEditingController passwordController = TextEditingController();
+TextEditingController confirmPasswordController = TextEditingController();
+
+@override
+void dispose() {
+  nameController.dispose();
+  emailController.dispose();
+  passwordController.dispose();
+  confirmPasswordController.dispose();
+  super.dispose();  
+}
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -32,6 +53,7 @@ class RegistrationPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               TextFormField(
+                controller: nameController,
                 decoration: InputDecoration(labelText: 'Name', border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ), filled: true,
@@ -39,12 +61,14 @@ class RegistrationPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               TextFormField(
+                controller: emailController,
                 decoration: InputDecoration(labelText: 'Email', border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
                 ),filled: true,fillColor: Color(0xffF7F8F9),),
               ),
               const SizedBox(height: 20),
               TextFormField(
+                controller: passwordController,
                 obscureText: true,
                 decoration: InputDecoration(labelText: 'Password',border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10),
@@ -53,6 +77,7 @@ class RegistrationPage extends StatelessWidget {
               ),
               const SizedBox(height: 20),
               TextFormField(
+                controller: confirmPasswordController,
                 obscureText: true,
                 decoration: InputDecoration(labelText: 'Confirm Password',
                 border: OutlineInputBorder(
@@ -66,9 +91,33 @@ class RegistrationPage extends StatelessWidget {
                 width: 331,
                 height: 56,
                 child: ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // Implement Register logic here
-                    Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
+                     // Get values from TextFormField
+    String name = nameController.text;
+    String email = emailController.text;
+    String password = passwordController.text;
+    String confirmPassword = confirmPasswordController.text;
+
+    if (password != confirmPassword) {
+      // Show a snackbar or any other error handling
+      ScaffoldMessenger.of(context).showSnackBar(
+       const SnackBar(
+          content: Text("Passwords do not match"),
+          backgroundColor: Colors.red,
+        ),
+      );
+      return;
+    }
+
+   await apiService.register(
+      firstname: name,
+      email: email,
+      password: password,
+      lastname: name,
+      username: name,    
+    );
+     Navigator.push(context, MaterialPageRoute(builder: (context) => LoginPage()));
                   },
                   child:Text('Register', style: TextStyle(color: Colors.white),),
                   style: ElevatedButton.styleFrom(primary: Color(0xFF026742),
