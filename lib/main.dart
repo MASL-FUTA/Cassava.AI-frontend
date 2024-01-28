@@ -11,14 +11,18 @@ import 'package:masl_futa_agric/pages/onboardingScreen.dart';
 
 
 void main()  {
-  // await Hive.initFlutter(); 
-  // await Hive.openBox<Farm>('farmBox');
-  // Hive.registerAdapter(FarmAdapter());
-   
-  runApp( BlocProvider(
-      create: (context) => FarmListBloc(),
-      child: const MyApp(),
-    ),);
+ 
+  runApp( MultiBlocProvider(
+    providers: [
+      BlocProvider(
+        create: (context) => FarmListBloc(),),
+        BlocProvider(
+        create: (context) => FarmDetailsBloc(),),
+    ],
+    
+        child:  MyApp(),
+      ),
+  );
 }
 
 class MyApp extends StatelessWidget {

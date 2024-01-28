@@ -1,6 +1,7 @@
 
 
 import 'package:flutter/material.dart';
+import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/farm_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
 import 'package:masl_futa_agric/pages/farm_pages/more_screen_page.dart';
@@ -21,7 +22,10 @@ class _DashboardPageState extends State<DashboardPage> {
     Farm(name: 'Farm 4', temperature: 25,  weatherCondition: WeatherCondition.rainy),
     Farm(name: 'Farm 5', temperature: 25,  weatherCondition: WeatherCondition.sunny),];
 
-  
+  List<FarmDetails> farmies = [
+    FarmDetails()
+
+  ];
 
  int _currentIndex = 0;
      void onTabTapped(int index) {
@@ -36,7 +40,7 @@ class _DashboardPageState extends State<DashboardPage> {
    // final farm1 = Farm(name: 'Farm 1', temperature: 25,  weatherCondition: WeatherCondition.rainy);
     final List<Widget> children = [
     HomePage(farms: farms),
-    FarmPage(farm:farms[0] ,),
+    FarmPage(farm:farmies[0] ,),
     ResourcesScreen(),
     MoreScreen(),
   ];

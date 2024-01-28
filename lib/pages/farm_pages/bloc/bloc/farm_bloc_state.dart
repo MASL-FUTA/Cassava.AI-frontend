@@ -18,7 +18,7 @@ abstract class FarmListState extends Equatable {
 class EmptyFarmListState extends FarmListState {}
 
 class NonEmptyFarmListState extends FarmListState {
-  final List<Farm> farms;
+  final List<FarmDetails> farms;
 
   const NonEmptyFarmListState({required this.farms});
 
