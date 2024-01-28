@@ -30,7 +30,7 @@ class FarmListBloc extends Bloc<FarmListEvent, FarmListState> {
   
   Stream<FarmListState> _mapFetchFarmsToState() async* {
     try {
-      final Box<FarmDetails> farmBox = Hive.box<FarmDetails>('farmBox');
+     final Box<FarmDetails> farmBox = Hive.box<FarmDetails>('farmBox');
       final List<FarmDetails> farms = farmBox.values.toList();
 
       if (farms.isEmpty) {

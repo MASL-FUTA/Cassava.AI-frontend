@@ -3,10 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
-import 'package:hive/hive.dart';
+
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/farm_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SoilPropertyPage extends StatefulWidget {
   @override
@@ -14,7 +15,7 @@ class SoilPropertyPage extends StatefulWidget {
 }
 
 class _SoilPropertyPageState extends State<SoilPropertyPage> {
-   final FarmDetailsBloc _farmDetailsBloc = FarmDetailsBloc();
+   final FarmDetailsBloc _farmDetailsBloc = FarmDetailsBloc();  
 
     SoilPropertyDetails soilPropertyDetails = SoilPropertyDetails(
     soilTexture: null,
@@ -113,65 +114,83 @@ class _SoilPropertyPageState extends State<SoilPropertyPage> {
                     ),
    
     
-    onPressed: ()  {
-  final farmDetailsState = context.read<FarmDetailsBloc>().state;
+    onPressed: () async {
+  try {
+    final farmDetailsState = context.read<FarmDetailsBloc>().state;
 
-  
- // Get the selected options from the state
-                      final selectedSoilTexture =
-                          selectedOptions['soilTexture'];
-                      final selectedSoilMoisture =
-                          selectedOptions['soilMoisture'];
-                      final selectedDrainage = selectedOptions['drainage'];
-                      final selectedOrganicMatter =
-                          selectedOptions['organicMatter'];
-                      final selectedSalinity = selectedOptions['salinity'];
-                      final selectedErosionStatus =
-                          selectedOptions['erosionStatus'];
+    // Get the selected options from the state
+    final selectedSoilTexture = selectedOptions['soilTexture'];
+    final selectedSoilMoisture = selectedOptions['soilMoisture'];
+    final selectedDrainage = selectedOptions['drainage'];
+    final selectedOrganicMatter = selectedOptions['organicMatter'];
+    final selectedSalinity = selectedOptions['salinity'];
+    final selectedErosionStatus = selectedOptions['erosionStatus'];
 
-  // Update the soilPropertyDetails
-  SoilPropertyDetails updatedSoilPropertyDetails = SoilPropertyDetails(
-    soilTexture: selectedSoilTexture,
-    soilMoisture: selectedSoilMoisture,
-    drainage: selectedDrainage,
-    organicMatter: selectedOrganicMatter,
-    salinity: selectedSalinity,
-    erosionStatus: selectedErosionStatus,
-  );
+    // Update the soilPropertyDetails
+    SoilPropertyDetails updatedSoilPropertyDetails = SoilPropertyDetails(
+      soilTexture: selectedSoilTexture,
+      soilMoisture: selectedSoilMoisture,
+      drainage: selectedDrainage,
+      organicMatter: selectedOrganicMatter,
+      salinity: selectedSalinity,
+      erosionStatus: selectedErosionStatus,
+    );
 
-      
-  final farmName = farmDetailsState.farmName;
-  final farmLocation = farmDetailsState.farmLocation;
-  final farmSize = farmDetailsState.farmSize;
-  final unit = farmDetailsState.unit;
-  final stage = farmDetailsState.stage;
-  final soilPH = farmDetailsState.soilPH;
-  final soilType = farmDetailsState.soilType;
-  
-  final soilPropertyDetails = farmDetailsState.soilPropertyDetails;
+    final farmName = farmDetailsState.farmName;
+    final farmLocation = farmDetailsState.farmLocation;
+    final farmSize = farmDetailsState.farmSize;
+    final unit = farmDetailsState.unit;
+    final stage = farmDetailsState.stage;
+    final soilPH = farmDetailsState.soilPH;
+    final soilType = farmDetailsState.soilType;
+    final soilPropertyDetails = farmDetailsState.soilPropertyDetails;
 
+    // Create Farm object with all details
+    FarmDetails farm = FarmDetails(
+      farmName: farmName,
+      farmLocation: farmLocation,
+      farmSize: farmSize,
+      unit: unit,
+      stage: stage,
+      soilPH: soilPH,
+      soilType: soilType,
+      soilPropertyDetails: soilPropertyDetails,
+    );
 
-   // Create Farm object with all details
-  FarmDetails farm = FarmDetails(
-    farmName: farmName,
-    farmLocation: farmLocation,
-    farmSize: farmSize,
-    unit: unit,
-    stage: stage,
-    soilPH: soilPH ,
-    soilType: soilType,
-    soilPropertyDetails: soilPropertyDetails,
-  );
+    debugPrint('create farm button clicked1');
 
-                      print('create farm button clicked');
-    
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => FarmPage(farm: farm),
-                        ),
-                      );
-                    },
+    // Save data using SharedPreferences
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setString('farmName', farmName);
+    prefs.setString('farmLocation', farmLocation);
+    prefs.setString('farmSize', farmSize);
+    prefs.setString('unit', unit);
+    prefs.setString('stage', stage);
+    prefs.setString('soilPH', soilPH);
+    prefs.setString('soilType', soilType);
+
+    // Save soil property details
+    prefs.setString('selectedSoilTexture', selectedSoilTexture ?? '');
+    prefs.setString('selectedSoilMoisture', selectedSoilMoisture ?? '');
+    prefs.setString('selectedDrainage', selectedDrainage ?? '');
+    prefs.setString('selectedOrganicMatter', selectedOrganicMatter ?? '');
+    prefs.setString('selectedSalinity', selectedSalinity ?? '');
+    prefs.setString('selectedErosionStatus', selectedErosionStatus ?? '');
+
+    debugPrint('create farm button clicked2');
+
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => FarmPage(farm: farm),
+      ),
+    );
+  } catch (e) {
+    // Handle exceptions
+    debugPrint('Error: $e');
+  }
+},
+
                   
               child: const Text('Create Farm', style: TextStyle(color: Colors.white),),
             ),
