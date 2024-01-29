@@ -11,12 +11,11 @@ class SoilInformationPage extends StatefulWidget {
 class _SoilInformationPageState extends State<SoilInformationPage> {
 
   final FarmDetailsBloc _farmDetailsBloc = FarmDetailsBloc();
- 
-  String selectedSoil = 'Loamy soil';
+   String selectedSoil = 'Loamy soil';
+  TextEditingController soilPHContoller = TextEditingController();
   @override
   Widget build(BuildContext context) {
     
-    TextEditingController soilPHContoller = TextEditingController();
     return BlocProvider(
       create: (context) => _farmDetailsBloc,
 
