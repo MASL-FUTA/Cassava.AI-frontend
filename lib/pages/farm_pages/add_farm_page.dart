@@ -83,22 +83,19 @@ class AddFarmPage1 extends StatefulWidget {
 }
 
 class _AddFarmPage1State extends State<AddFarmPage1> {
-   final FarmDetailsBloc _farmDetailsBloc = FarmDetailsBloc();
+final FarmDetailsBloc _farmDetailsBloc = FarmDetailsBloc();  
 
-  
+    TextEditingController farmLocationController = TextEditingController();
+    TextEditingController farmSizeController = TextEditingController();
+    TextEditingController farmNameController = TextEditingController();
 String selectedUnit = 'Plots';
-    String selectedStage = 'Planting Stage';
-    
-      String soilPH = '';
-      
-        String soilType = 'Loamy soil';
+String selectedStage = 'Planting Stage';
+String soilPH = '';     
+String soilType = 'Loamy soil';
 
   @override
   Widget build(BuildContext context) {
     
-    TextEditingController farmLocationController = TextEditingController();
-    TextEditingController farmSizeController = TextEditingController();
-    TextEditingController farmNameController = TextEditingController();
 
     return BlocProvider(
       create: (context) => _farmDetailsBloc,
