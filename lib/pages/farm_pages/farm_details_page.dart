@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:masl_futa_agric/pages/farm_pages/add_new_tasks_page.dart';
+import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
 
 class FullFarmViewPage extends StatelessWidget {
   // Pass farm data to this page through constructor
-  final Farm farm;
+  final FarmDetails farm;
 
   FullFarmViewPage(this.farm);
 
@@ -52,7 +53,7 @@ class FullFarmViewPage extends StatelessWidget {
 }
 
 class FarmWeatherCard extends StatelessWidget {
-  final Farm farm;
+  final FarmDetails farm;
 
   FarmWeatherCard({required this.farm});
 

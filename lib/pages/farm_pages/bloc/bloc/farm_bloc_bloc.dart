@@ -4,6 +4,8 @@ import 'package:hive/hive.dart';
 import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
 import 'package:meta/meta.dart';
 
+import 'package:shared_preferences/shared_preferences.dart';
+
 part 'farm_bloc_event.dart';
 part 'farm_bloc_state.dart';
 
@@ -13,13 +15,8 @@ part 'farm_bloc_state.dart';
 
 // Bloc
 class FarmListBloc extends Bloc<FarmListEvent, FarmListState> {
-  FarmListBloc() : super(EmptyFarmListState()) {
-    on<FetchFarms>((event, emit) {
-      add(FetchFarms());
-    });
-    }
-   
-  
+  FarmListBloc() : super(EmptyFarmListState());
+
   @override
   Stream<FarmListState> mapEventToState(FarmListEvent event) async* {
     if (event is FetchFarms) {
@@ -27,16 +24,34 @@ class FarmListBloc extends Bloc<FarmListEvent, FarmListState> {
     }
   }
 
-  
   Stream<FarmListState> _mapFetchFarmsToState() async* {
     try {
-     final Box<FarmDetails> farmBox = Hive.box<FarmDetails>('farmBox');
-      final List<FarmDetails> farms = farmBox.values.toList();
+      // Use shared preferences to fetch farm details
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      final String? farmName = prefs.getString('farmName');
+      final String? farmLocation = prefs.getString('farmLocation');
+      final String? farmSize = prefs.getString('farmSize');
+      final String? unit = prefs.getString('unit');
+      final String? stage = prefs.getString('stage');
+      final String? soilPH = prefs.getString('soilPH');
+      final String? soilType = prefs.getString('soilType');
 
-      if (farms.isEmpty) {
+      if (farmName == null || farmLocation == null || farmSize == null || unit == null || stage == null || soilPH == null || soilType == null) {
+        // If any of the required fields is null, consider it as empty
         yield EmptyFarmListState();
       } else {
-        yield NonEmptyFarmListState(farms: farms);
+        // Create FarmDetails object using the fetched data
+        final FarmDetails farmDetails = FarmDetails(
+          farmName: farmName,
+          farmLocation: farmLocation,
+          farmSize: farmSize,
+          unit: unit,
+          stage: stage,
+          soilPH: soilPH,
+          soilType: soilType,
+        );
+
+        yield NonEmptyFarmListState(farms: [farmDetails]);
       }
     } catch (e) {
       // Handle error
@@ -44,8 +59,8 @@ class FarmListBloc extends Bloc<FarmListEvent, FarmListState> {
       yield EmptyFarmListState(); // You can customize error handling based on your needs
     }
   }
-
 }
+
 
 
 class FarmDetailsBloc extends Cubit<FarmDetails> {
@@ -172,18 +187,4 @@ class SoilPropertyDetails {
 }
 
 
-// enum SoilPropertyEvent { OptionSelected }
 
-// class SoilPropertyBloc extends Bloc<SoilPropertyEvent, Map<String, String?>> {
-//   SoilPropertyBloc() : super({});
-
-//   @override
-//   Stream<Map<String, String?>> mapEventToState(SoilPropertyEvent event) async* {
-//     if (event == SoilPropertyEvent.OptionSelected) {
-//       // Handle the option selected event and update the state accordingly
-//       // You'll need to modify this logic based on your requirements
-//       // For simplicity, you can update the state with the selected options
-//       yield state;  // Replace with the logic to update the state based on the selected option
-//     }
-//   }
-// }

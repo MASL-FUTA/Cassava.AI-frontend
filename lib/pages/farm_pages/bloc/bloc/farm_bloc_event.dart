@@ -9,3 +9,9 @@ abstract class FarmListEvent extends Equatable {
 }
 
 class FetchFarms extends FarmListEvent {}
+
+class FarmSelectedEvent extends FarmListEvent {
+  final FarmDetails selectedFarm;
+
+  FarmSelectedEvent(this.selectedFarm);
+}

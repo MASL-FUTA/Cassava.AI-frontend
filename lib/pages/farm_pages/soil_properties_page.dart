@@ -182,7 +182,7 @@ class _SoilPropertyPageState extends State<SoilPropertyPage> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (context) => FarmPage(farm: farm),
+        builder: (context) => FarmPage(farms: farm),
       ),
     );
   } catch (e) {

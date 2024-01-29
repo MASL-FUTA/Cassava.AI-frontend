@@ -40,7 +40,7 @@ class _DashboardPageState extends State<DashboardPage> {
    // final farm1 = Farm(name: 'Farm 1', temperature: 25,  weatherCondition: WeatherCondition.rainy);
     final List<Widget> children = [
     HomePage(farms: farms),
-    FarmPage(farm:farmies[0] ,),
+    FarmPage(farms:farmies[0] ,),
     ResourcesScreen(),
     MoreScreen(),
   ];
