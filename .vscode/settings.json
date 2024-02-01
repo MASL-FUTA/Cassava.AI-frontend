@@ -1,0 +1,11 @@
+{
+    "editor.defaultFoldingRangeProvider": "Dart-Code.flutter",
+    "editor.defaultFormatter": "Dart-Code.flutter",
+    "editor.suggest.preview": false,
+    "terminal.integrated.tabs.hideCondition": "singleGroup",
+    "workbench.editor.wrapTabs": true,
+    "workbench.editor.tabSizingFixedMaxWidth": 160,
+    "editor.formatOnPaste": true,
+    "editor.formatOnSave": true,
+    "notebook.formatOnSave.enabled": true
+}

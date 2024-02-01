@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:masl_futa_agric/pages/farm_pages/change_password_page.dart';
+import 'package:masl_futa_agric/pages/farm_pages/faq_page.dart';
+import 'package:masl_futa_agric/pages/farm_pages/terms_conditions_page.dart';
 
 class MoreScreen extends StatelessWidget {
   @override
@@ -11,16 +14,29 @@ class MoreScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-             MoreItem(text: 'Change Password', onTap: (){},),
-            MoreItem(text: 'Terms and Conditions', onTap: (){},),
-            MoreItem(text: 'FAQ', onTap: (){},),
+             MoreItem(text: 'Change Password', onTap: (){
+              Navigator.push(
+                context, MaterialPageRoute(builder: (context) => ChangePasswordPage()),
+              );
+             },),
+            MoreItem(text: 'Terms and Conditions', onTap: (){
+              Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => TermsAndConditionsPage()),
+    );
+            },),
+            MoreItem(text: 'FAQ', onTap: (){
+               Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => FaqPage()),);
+            },),
             MoreItem(text: 'Support', onTap: (){},),
            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 // Handle logout action
               },
-              child: Text('Log Out'),
+              child: const Text('Log Out'),
             ),
           ],
         ),
