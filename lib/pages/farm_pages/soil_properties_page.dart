@@ -190,8 +190,6 @@ class _SoilPropertyPageState extends State<SoilPropertyPage> {
     debugPrint('Error: $e');
   }
 },
-
-                  
               child: const Text('Create Farm', style: TextStyle(color: Colors.white),),
             ),
           ),

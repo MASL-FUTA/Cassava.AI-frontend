@@ -167,7 +167,7 @@ class _FarmListPageState extends State<FarmListPage> {
                             children: [
                               Text(
                                 farm.farmName,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
                                   color: Color(0xFF026742),
@@ -175,14 +175,14 @@ class _FarmListPageState extends State<FarmListPage> {
                               ),
                               Text(
                                 farm.farmLocation,
-                                style: TextStyle(
+                                style: const TextStyle(
                                   fontSize: 12,
                                   color: Color(0xFF026742),
                                 ),
                               )
                             ],
                           ),
-                          Icon(
+                         const Icon(
                             Icons.arrow_forward_ios,
                             size: 12,
                             color: Color(0xFF026742),

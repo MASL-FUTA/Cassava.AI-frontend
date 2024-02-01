@@ -10,9 +10,6 @@ part 'farm_bloc_event.dart';
 part 'farm_bloc_state.dart';
 
 
-
-
-
 // Bloc
 class FarmListBloc extends Bloc<FarmListEvent, FarmListState> {
   FarmListBloc() : super(EmptyFarmListState());
