@@ -46,6 +46,7 @@ dependencies:
   equatable: ^2.0.5
   dio: 4.0.0
   shared_preferences: ^2.1.2
+  camera: ^0.10.5+9
 
 dev_dependencies:
   flutter_test:

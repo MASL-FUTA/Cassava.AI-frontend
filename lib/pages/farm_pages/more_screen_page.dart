@@ -14,24 +14,40 @@ class MoreScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-             MoreItem(text: 'Change Password', onTap: (){
-              Navigator.push(
-                context, MaterialPageRoute(builder: (context) => ChangePasswordPage()),
-              );
-             },),
-            MoreItem(text: 'Terms and Conditions', onTap: (){
-              Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => TermsAndConditionsPage()),
-    );
-            },),
-            MoreItem(text: 'FAQ', onTap: (){
-               Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => FaqPage()),);
-            },),
-            MoreItem(text: 'Support', onTap: (){},),
-           const SizedBox(height: 16),
+            const CassavaScannerContainer(),
+            MoreItem(
+              text: 'Change Password',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => ChangePasswordPage()),
+                );
+              },
+            ),
+            MoreItem(
+              text: 'Terms and Conditions',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => TermsAndConditionsPage()),
+                );
+              },
+            ),
+            MoreItem(
+              text: 'FAQ',
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FaqPage()),
+                );
+              },
+            ),
+            MoreItem(
+              text: 'Support',
+              onTap: () {},
+            ),
+            const SizedBox(height: 16),
             ElevatedButton(
               onPressed: () {
                 // Handle logout action
@@ -56,38 +72,103 @@ class MoreItem extends StatelessWidget {
     return GestureDetector(
       onTap: () => onTap(),
       child: Container(
-                        margin: const EdgeInsets.symmetric(vertical: 10),
-                        padding: const EdgeInsets.all(16),
-                        decoration: BoxDecoration(
-                          color: const Color(0xFFF0F4CD),
-                          borderRadius: BorderRadius.circular(8),
-                          border: Border.all(color: const Color(0xFF011F14)),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  text,
-                                  style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Color(0xFF026742),
-                                  ),
-                                ),
-                              
-                              ],
-                            ),
-                           const Icon(
-                              Icons.arrow_forward_ios,
-                              size: 12,
-                              color: Color(0xFF026742),
-                            ),
-                          ],
-                        ),
-                      ),
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color: const Color(0xFFF0F4CD),
+          borderRadius: BorderRadius.circular(8),
+          border: Border.all(color: const Color(0xFF011F14)),
+        ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  text,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF026742),
+                  ),
+                ),
+              ],
+            ),
+            const Icon(
+              Icons.arrow_forward_ios,
+              size: 12,
+              color: Color(0xFF026742),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class CassavaScannerContainer extends StatelessWidget {
+  const CassavaScannerContainer({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.symmetric(vertical: 20),
+      padding: EdgeInsets.all(16.0),
+      decoration: BoxDecoration(
+          color: Color(0xFF026742),
+          borderRadius: BorderRadius.all(Radius.circular(8))),
+      child: Row(
+        children: [
+          // Container with tree image
+          Container(
+            margin: EdgeInsets.only(right: 16.0),
+            child: Image.asset(
+              'assets/images/tree.png', // Replace with your tree image asset path
+              // width: 100.0,
+              // height: 100.0,
+              fit: BoxFit.cover,
+            ),
+          ),
+          // Column with title, description, and button
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                // Title
+                Text(
+                  'Cassava Imaging',
+                  style: TextStyle(
+                      fontSize: 20.0,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xffD8E37E)),
+                ),
+                // Description
+                Text(
+                  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
+                  'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
+                  style: TextStyle(fontSize: 16.0, color: Colors.white),
+                ),
+                // Button with icon
+                ElevatedButton.icon(
+                  style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStatePropertyAll(Color(0xffD8E37E))),
+                  onPressed: () {
+                    // Add functionality for the button click
+                    print('Scan Cassava button clicked!');
+                  },
+                  icon: Icon(Icons.scanner),
+                  label: Text(
+                    'Scan Cassava',
+                    style: TextStyle(color: Color(0xff026742)),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
