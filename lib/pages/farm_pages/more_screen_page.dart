@@ -1,7 +1,9 @@
+import 'package:camera/camera.dart';
 import 'package:flutter/material.dart';
 import 'package:masl_futa_agric/pages/farm_pages/change_password_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/faq_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/terms_conditions_page.dart';
+import 'package:masl_futa_agric/pages/scan_cassava_page.dart';
 
 class MoreScreen extends StatelessWidget {
   @override
@@ -108,7 +110,9 @@ class MoreItem extends StatelessWidget {
 }
 
 class CassavaScannerContainer extends StatelessWidget {
-  const CassavaScannerContainer({super.key});
+  CassavaScannerContainer({super.key});
+
+  final cameras = availableCameras();
 
   @override
   Widget build(BuildContext context) {
@@ -136,7 +140,7 @@ class CassavaScannerContainer extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Title
-                Text(
+                const Text(
                   'Cassava Imaging',
                   style: TextStyle(
                       fontSize: 20.0,
@@ -144,22 +148,28 @@ class CassavaScannerContainer extends StatelessWidget {
                       color: Color(0xffD8E37E)),
                 ),
                 // Description
-                Text(
+                const Text(
                   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. '
                   'Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.',
                   style: TextStyle(fontSize: 16.0, color: Colors.white),
                 ),
                 // Button with icon
                 ElevatedButton.icon(
-                  style: ButtonStyle(
+                  style: const ButtonStyle(
                       backgroundColor:
                           MaterialStatePropertyAll(Color(0xffD8E37E))),
                   onPressed: () {
                     // Add functionality for the button click
-                    print('Scan Cassava button clicked!');
+                    debugPrint('Scan Cassava button clicked!');
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: ((context) => const ScanCassavaPage(
+                                  cameras: [],
+                                ))));
                   },
-                  icon: Icon(Icons.scanner),
-                  label: Text(
+                  icon: const Icon(Icons.scanner),
+                  label: const Text(
                     'Scan Cassava',
                     style: TextStyle(color: Color(0xff026742)),
                   ),
