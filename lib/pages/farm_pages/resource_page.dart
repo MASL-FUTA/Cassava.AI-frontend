@@ -20,7 +20,12 @@ class ResourcesScreen extends StatelessWidget {
             ResourceContainer(
               title: 'News',
               description: 'Latest agriculture news and updates.',
-              image: 'assets/images/resource3.png',
+              image: 'assets/images/resource2.png',
+            ),
+            ResourceContainer(
+              title: 'News',
+              description: 'Latest agriculture news and updates.',
+              image: 'assets/images/resource1.png',
             ),
             ResourceContainer(
               title: 'News',
@@ -30,12 +35,7 @@ class ResourcesScreen extends StatelessWidget {
             ResourceContainer(
               title: 'News',
               description: 'Latest agriculture news and updates.',
-              image: 'assets/images/resource3.png',
-            ),
-            ResourceContainer(
-              title: 'News',
-              description: 'Latest agriculture news and updates.',
-              image: 'assets/images/resource3.png',
+              image: 'assets/images/resource2.png',
             ),
             ResourceContainer(
               title: 'Books',
@@ -82,10 +82,16 @@ class ResourceContainer extends StatelessWidget {
           ),
           Text(
             title,
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+            style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+                color: Color(0xff026742)),
           ),
           const SizedBox(height: 8),
-          Text(description),
+          Text(
+            description,
+            style: const TextStyle(color: Color(0xff6A6A6A)),
+          ),
         ],
       ),
     );
