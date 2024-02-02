@@ -16,7 +16,7 @@ class MoreScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
-            const CassavaScannerContainer(),
+            CassavaScannerContainer(),
             MoreItem(
               text: 'Change Password',
               onTap: () {

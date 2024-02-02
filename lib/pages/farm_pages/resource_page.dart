@@ -8,20 +8,44 @@ class ResourcesScreen extends StatelessWidget {
         title: Text('Resources'),
       ),
       body: SingleChildScrollView(
+        padding: EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
             ResourceContainer(
               title: 'News',
               description: 'Latest agriculture news and updates.',
+              image: 'assets/images/resource3.png',
+            ),
+            ResourceContainer(
+              title: 'News',
+              description: 'Latest agriculture news and updates.',
+              image: 'assets/images/resource3.png',
+            ),
+            ResourceContainer(
+              title: 'News',
+              description: 'Latest agriculture news and updates.',
+              image: 'assets/images/resource3.png',
+            ),
+            ResourceContainer(
+              title: 'News',
+              description: 'Latest agriculture news and updates.',
+              image: 'assets/images/resource3.png',
+            ),
+            ResourceContainer(
+              title: 'News',
+              description: 'Latest agriculture news and updates.',
+              image: 'assets/images/resource3.png',
             ),
             ResourceContainer(
               title: 'Books',
               description: 'Recommended books on agriculture.',
+              image: 'assets/images/resource1.png',
             ),
             ResourceContainer(
               title: 'Achievements',
               description: 'Notable achievements in agriculture.',
+              image: 'assets/images/resource2.png',
             ),
             // Add more ResourceContainer widgets as needed.
           ],
@@ -34,8 +58,10 @@ class ResourcesScreen extends StatelessWidget {
 class ResourceContainer extends StatelessWidget {
   final String title;
   final String description;
+  final String image;
 
-  ResourceContainer({required this.title, required this.description});
+  ResourceContainer(
+      {required this.title, required this.description, required this.image});
 
   @override
   Widget build(BuildContext context) {
@@ -49,11 +75,16 @@ class ResourceContainer extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          Image.asset(
+            image,
+            width: 328,
+            height: 158,
+          ),
           Text(
             title,
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
           ),
-        const  SizedBox(height: 8),
+          const SizedBox(height: 8),
           Text(description),
         ],
       ),
