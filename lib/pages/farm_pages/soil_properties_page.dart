@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/farm_page.dart';
+import 'package:masl_futa_agric/pages/view/app_bar.dart';
 import 'package:masl_futa_agric/pages/view/soil_questions.dart';
 import 'package:masl_futa_agric/service/local_storage.dart';
 import 'package:masl_futa_agric/viewmodel/farm_view_model.dart';
@@ -18,6 +19,7 @@ class SoilPropertyPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultLeadingWidth = AppBarTheme.of(context).iconTheme?.size ?? 56.0;
     final Map<String, String?> selectedOptions = {
       'soilTexture': null,
       'soilMoisture': null,
@@ -28,8 +30,19 @@ class SoilPropertyPage extends StatelessWidget {
     };
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Soil Property'),
+        leadingWidth: defaultLeadingWidth + 16,
+        leading: AppBackButton(
+          func: () => Navigator.pop(context),
+        ),
+        centerTitle: true,
+        title: const Text(
+          'Soil Property',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+            color: Color(0xff4C586F),
+          ),
+        ),
       ),
       body: Stack(
         children: [
