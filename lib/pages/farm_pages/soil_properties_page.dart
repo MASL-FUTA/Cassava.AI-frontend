@@ -1,12 +1,11 @@
 import 'dart:convert';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:flutter/material.dart';
 
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/farm_page.dart';
-import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
+
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SoilPropertyPage extends StatefulWidget {
@@ -68,7 +67,7 @@ class _SoilPropertyPageState extends State<SoilPropertyPage> {
       create: (context) => _farmDetailsBloc,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Soil Property'),
+          title: const Text('Soil Property'),
         ),
         body: Stack(
           children: [
@@ -161,6 +160,8 @@ class _SoilPropertyPageState extends State<SoilPropertyPage> {
                           soilType: soilType,
                           soilPropertyDetails: soilPropertyDetails,
                         );
+                        debugPrint(
+                            'FarmName1: $farmName, FarmLocation1: $farmLocation, ...');
 
                         debugPrint('create farm button clicked1');
 
@@ -190,6 +191,14 @@ class _SoilPropertyPageState extends State<SoilPropertyPage> {
                             selectedErosionStatus ?? '');
 
                         debugPrint('create farm button clicked2');
+
+                        //_farmDetailsBloc.add(FetchFarms());
+
+                        final farmListBloc = context.read<FarmListBloc>();
+                        farmListBloc.add(FetchFarms());
+
+                        debugPrint(
+                            'FarmName: $farmName, FarmLocation: $farmLocation, ...');
 
                         Navigator.push(
                           context,

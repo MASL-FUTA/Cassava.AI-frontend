@@ -82,8 +82,6 @@ class AddFarmPage1 extends StatefulWidget {
 }
 
 class _AddFarmPage1State extends State<AddFarmPage1> {
-  final FarmDetailsBloc _farmDetailsBloc = FarmDetailsBloc();
-
   TextEditingController farmLocationController = TextEditingController();
   TextEditingController farmSizeController = TextEditingController();
   TextEditingController farmNameController = TextEditingController();
@@ -94,11 +92,13 @@ class _AddFarmPage1State extends State<AddFarmPage1> {
 
   @override
   Widget build(BuildContext context) {
+    final FarmDetailsBloc _farmDetailsBloc = context.read<FarmDetailsBloc>();
+
     return BlocProvider(
       create: (context) => _farmDetailsBloc,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('Add New Farm'),
+          title: const Text('Add New Farm'),
         ),
         body: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -303,7 +303,7 @@ class _AddFarmPage1State extends State<AddFarmPage1> {
                 height: 56,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: const Color(0xff026742),
+                    backgroundColor: const Color(0xff026742),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
                     ),
@@ -317,6 +317,8 @@ class _AddFarmPage1State extends State<AddFarmPage1> {
                         stage: selectedStage,
                         soilPH: soilPH,
                         soilType: soilType);
+                    debugPrint(
+                        'farmName : ${farmNameController.text}, farmLocation: ${farmLocationController.text}');
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -340,7 +342,7 @@ class _AddFarmPage1State extends State<AddFarmPage1> {
 
   @override
   void dispose() {
-    _farmDetailsBloc.close();
+    // _farmDetailsBloc.close();
     super.dispose();
   }
 }

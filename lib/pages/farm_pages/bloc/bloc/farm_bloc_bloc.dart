@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
 import 'package:meta/meta.dart';
@@ -9,19 +10,21 @@ import 'package:shared_preferences/shared_preferences.dart';
 part 'farm_bloc_event.dart';
 part 'farm_bloc_state.dart';
 
-
 // Bloc
 class FarmListBloc extends Bloc<FarmListEvent, FarmListState> {
-  FarmListBloc() : super(EmptyFarmListState());
+  FarmListBloc() : super(EmptyFarmListState()) {
+    on<FetchFarms>(_mapFetchFarmsToState);
+  }
 
   @override
   Stream<FarmListState> mapEventToState(FarmListEvent event) async* {
-    if (event is FetchFarms) {
-      yield* _mapFetchFarmsToState();
-    }
+    // if (event is FetchFarms) {
+    //   yield* _mapFetchFarmsToState();
+    // }
   }
 
-  Stream<FarmListState> _mapFetchFarmsToState() async* {
+  Stream<FarmListState> _mapFetchFarmsToState(
+      FetchFarms event, Emitter<FarmListState> emit) async* {
     try {
       // Use shared preferences to fetch farm details
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -33,9 +36,15 @@ class FarmListBloc extends Bloc<FarmListEvent, FarmListState> {
       final String? soilPH = prefs.getString('soilPH');
       final String? soilType = prefs.getString('soilType');
 
-      if (farmName == null || farmLocation == null || farmSize == null || unit == null || stage == null || soilPH == null || soilType == null) {
+      if (farmName == null ||
+          farmLocation == null ||
+          farmSize == null ||
+          unit == null ||
+          stage == null ||
+          soilPH == null ||
+          soilType == null) {
         // If any of the required fields is null, consider it as empty
-        yield EmptyFarmListState();
+        emit(EmptyFarmListState());
       } else {
         // Create FarmDetails object using the fetched data
         final FarmDetails farmDetails = FarmDetails(
@@ -48,17 +57,17 @@ class FarmListBloc extends Bloc<FarmListEvent, FarmListState> {
           soilType: soilType,
         );
 
-        yield NonEmptyFarmListState(farms: [farmDetails]);
+        // List<FarmDetails> farms = await fetchFarms();
+        emit(NonEmptyFarmListState(farms: [farmDetails]));
       }
     } catch (e) {
       // Handle error
-      print('Error fetching farms: $e');
-      yield EmptyFarmListState(); // You can customize error handling based on your needs
+      debugPrint('Error fetching farms: $e');
+      emit(
+          EmptyFarmListState()); // You can customize error handling based on your needs
     }
   }
 }
-
-
 
 class FarmDetailsBloc extends Cubit<FarmDetails> {
   FarmDetailsBloc() : super(FarmDetails());
@@ -92,7 +101,8 @@ class FarmDetailsBloc extends Cubit<FarmDetails> {
     required String? erosionStatus,
   }) {
     // Extract the existing SoilPropertyDetails from the state
-    final SoilPropertyDetails existingSoilPropertyDetails = state.soilPropertyDetails!;
+    final SoilPropertyDetails existingSoilPropertyDetails =
+        state.soilPropertyDetails!;
 
     // Update the SoilPropertyDetails
     final updatedSoilPropertyDetails = SoilPropertyDetails(
@@ -130,27 +140,27 @@ class FarmDetails {
     this.soilPropertyDetails,
   });
 
- FarmDetails copyWith({
-  String? farmName,
-  String? farmLocation,
-  String? farmSize,
-  String? unit,
-  String? stage,
-  String? soilPH,
-  String? soilType,
-  SoilPropertyDetails? soilPropertyDetails,
-}) {
-  return FarmDetails(
-    farmName: farmName ?? this.farmName,
-    farmLocation: farmLocation ?? this.farmLocation,
-    farmSize: farmSize ?? this.farmSize,
-    unit: unit ?? this.unit,
-    stage: stage ?? this.stage,
-    soilPH: soilPH ?? this.soilPH,
-    soilType: soilType ?? this.soilType,
-    soilPropertyDetails: soilPropertyDetails ?? this.soilPropertyDetails,
-  );
-}
+  FarmDetails copyWith({
+    String? farmName,
+    String? farmLocation,
+    String? farmSize,
+    String? unit,
+    String? stage,
+    String? soilPH,
+    String? soilType,
+    SoilPropertyDetails? soilPropertyDetails,
+  }) {
+    return FarmDetails(
+      farmName: farmName ?? this.farmName,
+      farmLocation: farmLocation ?? this.farmLocation,
+      farmSize: farmSize ?? this.farmSize,
+      unit: unit ?? this.unit,
+      stage: stage ?? this.stage,
+      soilPH: soilPH ?? this.soilPH,
+      soilType: soilType ?? this.soilType,
+      soilPropertyDetails: soilPropertyDetails ?? this.soilPropertyDetails,
+    );
+  }
 
   Map<String, String?> selectedOptions = {
     'soilTexture': null,
@@ -178,10 +188,4 @@ class SoilPropertyDetails {
     required this.salinity,
     required this.erosionStatus,
   });
-
- 
-
 }
-
-
-

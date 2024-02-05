@@ -9,9 +9,10 @@ import 'package:shared_preferences/shared_preferences.dart';
 class FarmPage extends StatelessWidget {
   final FarmDetails farms;
   const FarmPage({Key? key, required this.farms}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
-     debugPrint('FarmPage - FarmDetails: $farms');
+    debugPrint('FarmPage - FarmDetails: $farms');
     return BlocBuilder<FarmListBloc, FarmListState>(
       builder: (context, state) {
         debugPrint('FarmPage State: $state');
@@ -182,7 +183,7 @@ class _FarmListPageState extends State<FarmListPage> {
                               )
                             ],
                           ),
-                         const Icon(
+                          const Icon(
                             Icons.arrow_forward_ios,
                             size: 12,
                             color: Color(0xFF026742),
@@ -201,14 +202,11 @@ class _FarmListPageState extends State<FarmListPage> {
         onTap: onTabTapped,
         currentIndex: _currentIndex,
         items: const [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.home), label: 'Home'),
+          BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
           BottomNavigationBarItem(
               icon: Icon(Icons.agriculture_outlined), label: 'Farms'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.folder), label: 'Resources'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.more_horiz), label: 'More'),
+          BottomNavigationBarItem(icon: Icon(Icons.folder), label: 'Resources'),
+          BottomNavigationBarItem(icon: Icon(Icons.more_horiz), label: 'More'),
         ],
         selectedItemColor: const Color(0xff026742),
         unselectedItemColor: const Color(0xff7988A4),
