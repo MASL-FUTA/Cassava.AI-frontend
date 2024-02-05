@@ -1,8 +1,17 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/soil_information_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/soil_properties_page.dart';
+import 'package:masl_futa_agric/pages/view/land_unit.dart';
+import 'package:masl_futa_agric/pages/view/plant_stages.dart';
+import 'package:masl_futa_agric/service/local_storage.dart';
+import 'package:masl_futa_agric/viewmodel/farm_view_model.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_hooks/stacked_hooks.dart';
 
 class AddFarmPage extends StatefulWidget {
   @override
@@ -10,39 +19,42 @@ class AddFarmPage extends StatefulWidget {
 }
 
 class _AddFarmPageState extends State<AddFarmPage> {
-  final PageController _pageController = PageController();
+  final PageController pageController = PageController();
   int currentPage = 0;
+
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => FarmDetailsBloc(),
-      child: SafeArea(
-        child: Scaffold(
-          body: Column(
-            children: [
-              PageIndicator(pageCount: 3, currentPage: currentPage),
-              Expanded(
-                child: PageView(
-                  controller: _pageController,
-                  onPageChanged: (index) {
-                    setState(() {
-                      currentPage = index;
-                    });
-                  },
-                  children: [
-                    // Page 1
-                    AddFarmPage1(),
-                    // Page 2
-                    SoilInformationPage(),
-                    //Page 3
-                    SoilPropertyPage(),
-                  ],
+    return ViewModelBuilder<FarmViewModel>.nonReactive(
+      viewModelBuilder: () => FarmViewModel(),
+      builder: (BuildContext context, FarmViewModel model, _) {
+        return Scaffold(
+          body: SafeArea(
+            child: Column(
+              children: [
+                PageIndicator(pageCount: 3, currentPage: currentPage),
+                Expanded(
+                  child: PageView(
+                    controller: pageController,
+                    onPageChanged: (index) {
+                      setState(() {
+                        currentPage = index;
+                      });
+                    },
+                    children: [
+                      // Page 1
+                      AddFarmPage1(pageController: pageController),
+                      // Page 2
+                      SoilInformationPage(pageController: pageController),
+                      //Page 3
+                      SoilPropertyPage(),
+                    ],
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
@@ -76,273 +88,140 @@ class PageIndicator extends StatelessWidget {
   }
 }
 
-class AddFarmPage1 extends StatefulWidget {
-  @override
-  State<AddFarmPage1> createState() => _AddFarmPage1State();
-}
+class AddFarmPage1 extends StackedHookView<FarmViewModel> {
+  final PageController pageController;
 
-class _AddFarmPage1State extends State<AddFarmPage1> {
-  TextEditingController farmLocationController = TextEditingController();
-  TextEditingController farmSizeController = TextEditingController();
-  TextEditingController farmNameController = TextEditingController();
-  String selectedUnit = 'Plots';
-  String selectedStage = 'Planting Stage';
-  String soilPH = '';
-  String soilType = 'Loamy soil';
+  const AddFarmPage1({super.key, required this.pageController});
 
   @override
-  Widget build(BuildContext context) {
-    final FarmDetailsBloc _farmDetailsBloc = context.read<FarmDetailsBloc>();
-
-    return BlocProvider(
-      create: (context) => _farmDetailsBloc,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Add New Farm'),
-        ),
-        body: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              const Center(
-                child: Text(
-                  'Add New Farm',
-                  style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xff4C586F)),
-                ),
+  Widget builder(BuildContext context, FarmViewModel model) {
+    return Scaffold(
+      appBar: AppBar(title: const Text('Add New Farm')),
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            const Center(
+              child: Text(
+                'Add New Farm',
+                style: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xff4C586F)),
               ),
-              const SizedBox(height: 16),
-              TextFormField(
-                controller: farmNameController,
-                decoration: InputDecoration(
-                  labelText: 'Enter Farm Name',
-                  labelStyle: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xff7988A4)),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  filled: true,
-                  fillColor: const Color(0xffF7F8F9),
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                controller: farmLocationController,
-                decoration: InputDecoration(
-                  labelText: 'Enter Farm Location',
-                  labelStyle: const TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w400,
-                      color: Color(0xff7988A4)),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(10.0),
-                  ),
-                  filled: true,
-                  fillColor: const Color(0xffF7F8F9),
-                ),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Expanded(
-                    child: TextFormField(
-                      controller: farmSizeController,
-                      decoration: InputDecoration(
-                        labelText: 'Farm Size ?',
-                        labelStyle: const TextStyle(
-                            fontSize: 14,
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xff7988A4)),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                        ),
-                        filled: true,
-                        fillColor: const Color(0xffF7F8F9),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text('Unit',
-                            style: TextStyle(
-                                fontWeight: FontWeight.w400,
-                                color: Color(0xff7988A4),
-                                fontSize: 14)),
-                        Row(
-                          children: <Widget>[
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedUnit = 'Plots';
-                                });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: selectedUnit == 'Plots'
-                                      ? Color(0xff026742)
-                                      : Color(0xffF7F8F9),
-                                ),
-                                child: Text(
-                                  'Plots',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: selectedUnit == 'Plots'
-                                        ? Colors.white
-                                        : Color(0xff026742),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedUnit = 'Acres';
-                                });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: selectedUnit == 'Acres'
-                                      ? Color(0xff026742)
-                                      : Color(0xffF7F8F9),
-                                ),
-                                child: Text(
-                                  'Acres',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: selectedUnit == 'Acres'
-                                        ? Colors.white
-                                        : Color(0xff026742),
-                                  ),
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () {
-                                setState(() {
-                                  selectedUnit = 'Hectares';
-                                });
-                              },
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(10.0),
-                                  color: selectedUnit == 'Hectares'
-                                      ? Color(0xff026742)
-                                      : Color(0xffF7F8F9),
-                                ),
-                                child: Text(
-                                  'Hectares',
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w400,
-                                    color: selectedUnit == 'Hectares'
-                                        ? Colors.white
-                                        : Color(0xff026742),
-                                  ),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 20),
-              Container(
-                width: 331,
-                height: 56,
-                decoration: BoxDecoration(
+            ),
+            const SizedBox(height: 16),
+            TextFormField(
+              controller: model.farmNameController,
+              decoration: InputDecoration(
+                labelText: 'Enter Farm Name',
+                labelStyle: const TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w400,
+                    color: Color(0xff7988A4)),
+                border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: const Color(0xffE8ECF4),
-                  ),
-                  color: const Color(0xffF7F8F9),
                 ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: selectedStage,
-                    icon: const Icon(Icons.arrow_drop_down),
-                    iconSize: 20,
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.black),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedStage = newValue ?? selectedStage;
-                      });
-                    },
-                    items: <String>[
-                      'Planting Stage',
-                      'Cultivating Stage',
-                      'Harvesting Stage'
-                    ].map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
+                filled: true,
+                fillColor: const Color(0xffF7F8F9),
               ),
-              const SizedBox(height: 32),
-              SizedBox(
-                width: 331,
-                height: 56,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff026742),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+            ),
+            const SizedBox(height: 20),
+            TextFormField(
+              controller: model.farmLocationController,
+              decoration: InputDecoration(
+                labelText: 'Enter Farm Location',
+                labelStyle: const TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w400,
+                  color: Color(0xff7988A4),
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                filled: true,
+                fillColor: const Color(0xffF7F8F9),
+              ),
+            ),
+            const SizedBox(height: 20),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: <Widget>[
+                Expanded(
+                  child: TextFormField(
+                    controller: model.farmSizeController,
+                    decoration: InputDecoration(
+                      labelText: 'Farm Size ?',
+                      labelStyle: const TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w400,
+                          color: Color(0xff7988A4)),
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      filled: true,
+                      fillColor: const Color(0xffF7F8F9),
                     ),
                   ),
-                  onPressed: () {
-                    _farmDetailsBloc.updateFarmDetails(
-                        farmName: farmNameController.text,
-                        farmLocation: farmLocationController.text,
-                        farmSize: farmSizeController.text,
-                        unit: selectedUnit,
-                        stage: selectedStage,
-                        soilPH: soilPH,
-                        soilType: soilType);
-                    debugPrint(
-                        'farmName : ${farmNameController.text}, farmLocation: ${farmLocationController.text}');
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SoilInformationPage()));
-                  },
-                  child: const Text(
-                    'Proceed',
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 14,
-                        fontWeight: FontWeight.w600),
+                ),
+                const SizedBox(width: 10),
+                const Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        'Unit',
+                        style: TextStyle(
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xff7988A4),
+                            fontSize: 14),
+                      ),
+                      LandUnits(),
+                    ],
                   ),
                 ),
+              ],
+            ),
+            const SizedBox(height: 20),
+            const PlantStages(),
+            const SizedBox(height: 32),
+            SizedBox(
+              width: 331,
+              height: 56,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: const Color(0xff026742),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+                onPressed: () {
+                  var farmDetails = FarmDetails(
+                    farmName: model.farmNameController.text,
+                    farmLocation: model.farmLocationController.text,
+                    farmSize: model.farmSizeController.text,
+                    unit: model.selectedUnit,
+                    stage: model.selectedStage,
+                  );
+
+                  pageController.nextPage(
+                    duration: const Duration(seconds: 1),
+                    curve: Curves.linear,
+                  );
+                },
+                child: const Text(
+                  'Proceed',
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w600),
+                ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    // _farmDetailsBloc.close();
-    super.dispose();
   }
 }

@@ -162,6 +162,30 @@ class FarmDetails {
     );
   }
 
+  FarmDetails.getData(Map<String, dynamic> map) {
+    farmName = map["farmName"];
+    farmLocation = map["farmLocation"];
+    farmSize = map["farmSize"];
+    unit = map["unit"];
+    stage = map["stage"];
+    soilPH = map["soilPH"];
+    soilType = map["soilType"];
+    soilPropertyDetails = map["soilPropertyDetails"];
+  }
+
+  Map<String, dynamic> getMap() {
+    return {
+      'farmName':farmName,
+      'farmLocation':farmLocation,
+      'farmSize':farmSize,
+      'unit':unit,
+      'stage':stage,
+      'soilPH':soilPH,
+      'soilType':soilType,
+      'soilPropertyDetails':soilPropertyDetails,
+    };
+  }
+
   Map<String, String?> selectedOptions = {
     'soilTexture': null,
     'soilMoisture': null,

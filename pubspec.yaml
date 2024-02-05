@@ -47,6 +47,8 @@ dependencies:
   dio: 4.0.0
   shared_preferences: ^2.1.2
   camera: ^0.10.5+9
+  stacked: ^3.4.2
+  stacked_hooks: ^0.2.3
 
 dev_dependencies:
   flutter_test:
