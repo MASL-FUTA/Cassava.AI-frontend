@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/cupertino.dart';
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/soil_properties_page.dart';
@@ -80,6 +82,7 @@ class FarmViewModel extends BaseViewModel{
 
   setFarmAnswers(Map<String, String> input){
     _farAnswers = input;
+    log("message ****************** $input");
     notifyListeners();
   }
 

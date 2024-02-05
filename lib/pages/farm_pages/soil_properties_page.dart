@@ -12,7 +12,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
 
 class SoilPropertyPage extends StatelessWidget {
-  const SoilPropertyPage({super.key});
+  final PageController pageController;
+
+  const SoilPropertyPage({super.key, required this.pageController});
 
   @override
   Widget build(BuildContext context) {
@@ -126,7 +128,6 @@ class SoilPropertyPage extends StatelessWidget {
                         'farmDetails',
                         jsonEncode(farmDetails.getMap()),
                       );
-                      log("FarmDetails ************ ${farmDetails.getMap()}");
                       if (context.mounted) {
                         Navigator.push(
                           context,

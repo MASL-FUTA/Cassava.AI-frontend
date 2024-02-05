@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/soil_information_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/soil_properties_page.dart';
+import 'package:masl_futa_agric/pages/view/app_bar.dart';
 import 'package:masl_futa_agric/pages/view/land_unit.dart';
 import 'package:masl_futa_agric/pages/view/plant_stages.dart';
 import 'package:masl_futa_agric/service/local_storage.dart';
@@ -34,6 +35,7 @@ class _AddFarmPageState extends State<AddFarmPage> {
                 PageIndicator(pageCount: 3, currentPage: currentPage),
                 Expanded(
                   child: PageView(
+                    physics: const NeverScrollableScrollPhysics(),
                     controller: pageController,
                     onPageChanged: (index) {
                       setState(() {
@@ -46,7 +48,7 @@ class _AddFarmPageState extends State<AddFarmPage> {
                       // Page 2
                       SoilInformationPage(pageController: pageController),
                       //Page 3
-                      SoilPropertyPage(),
+                      SoilPropertyPage(pageController: pageController),
                     ],
                   ),
                 ),
@@ -72,14 +74,17 @@ class PageIndicator extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: List.generate(pageCount, (index) {
-          return Container(
-            margin: const EdgeInsets.symmetric(horizontal: 8.0),
-            height: 7.0,
-            width: 79.0,
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              color:
-                  index == currentPage ? Color(0xffE7EEB0) : Color(0xff026742),
+          return Expanded(
+            child: Container(
+              margin: const EdgeInsets.symmetric(horizontal: 8.0),
+              height: 7.0,
+              width: double.infinity,
+              decoration: BoxDecoration(
+                shape: BoxShape.rectangle,
+                color: index == currentPage
+                    ? Color(0xffE7EEB0)
+                    : Color(0xff026742),
+              ),
             ),
           );
         }),
@@ -95,8 +100,23 @@ class AddFarmPage1 extends StackedHookView<FarmViewModel> {
 
   @override
   Widget builder(BuildContext context, FarmViewModel model) {
+    final defaultLeadingWidth = AppBarTheme.of(context).iconTheme?.size ?? 56.0;
     return Scaffold(
-      appBar: AppBar(title: const Text('Add New Farm')),
+      appBar: AppBar(
+        leadingWidth: defaultLeadingWidth + 16,
+        leading: AppBackButton(
+          func: () => Navigator.pop(context),
+        ),
+        centerTitle: true,
+        title: const Text(
+          'Soil Information',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+            color: Color(0xff4C586F),
+          ),
+        ),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(
@@ -206,7 +226,7 @@ class AddFarmPage1 extends StackedHookView<FarmViewModel> {
                   );
 
                   pageController.nextPage(
-                    duration: const Duration(seconds: 1),
+                    duration: const Duration(milliseconds: 500),
                     curve: Curves.linear,
                   );
                 },

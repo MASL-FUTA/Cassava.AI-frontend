@@ -27,7 +27,8 @@ class SoilQuestions extends StackedHookView<FarmViewModel> {
             question: questions[i],
             selectedOption: model.farAnswers[questions[i].id] ?? "",
             onOptionSelected: (option) {
-              model.setFarmAnswers({questions[i].id: option ?? ""});
+              model.farAnswers[questions[i].id]= option ?? "";
+              model.setFarmAnswers(model.farAnswers);
             },
           ),
         const SizedBox(height: 20),
