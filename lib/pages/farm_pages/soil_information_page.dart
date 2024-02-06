@@ -66,6 +66,8 @@ class SoilInformationPage extends StackedHookView<FarmViewModel> {
                   ),
                 ),
                 onPressed: () async {
+                  if(model.soilPHContoller.text.trim().isEmpty) return;
+                  if(model.selectedSoil.isEmpty) return;
                   pageController.nextPage(
                     duration: const Duration(milliseconds: 500),
                     curve: Curves.linear,

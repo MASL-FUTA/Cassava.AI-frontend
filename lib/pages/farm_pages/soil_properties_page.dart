@@ -1,38 +1,26 @@
-import 'dart:convert';
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/farm_page.dart';
 import 'package:masl_futa_agric/pages/view/app_bar.dart';
 import 'package:masl_futa_agric/pages/view/soil_questions.dart';
-import 'package:masl_futa_agric/service/local_storage.dart';
 import 'package:masl_futa_agric/viewmodel/farm_view_model.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
 
-class SoilPropertyPage extends StatelessWidget {
+class SoilPropertyPage extends StackedHookView<FarmViewModel> {
   final PageController pageController;
 
   const SoilPropertyPage({super.key, required this.pageController});
 
   @override
-  Widget build(BuildContext context) {
+  Widget builder(BuildContext context, FarmViewModel model) {
     final defaultLeadingWidth = AppBarTheme.of(context).iconTheme?.size ?? 56.0;
-    final Map<String, String?> selectedOptions = {
-      'soilTexture': null,
-      'soilMoisture': null,
-      'drainage': null,
-      'organicMatter': null,
-      'salinity': null,
-      'erosionStatus': null,
-    };
     return Scaffold(
       appBar: AppBar(
         leadingWidth: defaultLeadingWidth + 16,
         leading: AppBackButton(
-          func: () => Navigator.pop(context),
+          func: () => pageController.previousPage(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.linear,
+          ),
         ),
         centerTitle: true,
         title: const Text(
@@ -65,87 +53,13 @@ class SoilPropertyPage extends StatelessWidget {
                   ),
                   onPressed: () async {
                     try {
-                      final farmDetailsState =
-                          context.read<FarmDetailsBloc>().state;
-
-                      // Get the selected options from the state
-                      final selectedSoilTexture =
-                          selectedOptions['soilTexture'];
-                      final selectedSoilMoisture =
-                          selectedOptions['soilMoisture'];
-                      final selectedDrainage = selectedOptions['drainage'];
-                      final selectedOrganicMatter =
-                          selectedOptions['organicMatter'];
-                      final selectedSalinity = selectedOptions['salinity'];
-                      final selectedErosionStatus =
-                          selectedOptions['erosionStatus'];
-
-                      // Update the soilPropertyDetails
-                      SoilPropertyDetails updatedSoilPropertyDetails =
-                          SoilPropertyDetails(
-                        soilTexture: selectedSoilTexture,
-                        soilMoisture: selectedSoilMoisture,
-                        drainage: selectedDrainage,
-                        organicMatter: selectedOrganicMatter,
-                        salinity: selectedSalinity,
-                        erosionStatus: selectedErosionStatus,
-                      );
-
-                      final farmName = farmDetailsState.farmName;
-                      final farmLocation = farmDetailsState.farmLocation;
-                      final farmSize = farmDetailsState.farmSize;
-                      final unit = farmDetailsState.unit;
-                      final stage = farmDetailsState.stage;
-                      final soilPH = farmDetailsState.soilPH;
-                      final soilType = farmDetailsState.soilType;
-                      final soilPropertyDetails =
-                          farmDetailsState.soilPropertyDetails;
-
-                      final SharedPreferences prefs =
-                          await SharedPreferences.getInstance();
-
-                      prefs.setString(
-                          'selectedSoilTexture', selectedSoilTexture ?? '');
-                      prefs.setString(
-                          'selectedSoilMoisture', selectedSoilMoisture ?? '');
-                      prefs.setString(
-                          'selectedDrainage', selectedDrainage ?? '');
-                      prefs.setString(
-                          'selectedOrganicMatter', selectedOrganicMatter ?? '');
-                      prefs.setString(
-                          'selectedSalinity', selectedSalinity ?? '');
-                      prefs.setString(
-                          'selectedErosionStatus', selectedErosionStatus ?? '');
-
-                      //_farmDetailsBloc.add(FetchFarms());
-
-                      if (context.mounted) {
-                        final farmListBloc = context.read<FarmListBloc>();
-                        farmListBloc.add(FetchFarms());
-                      }
-
-                      var json = await LocalStorage().getString('farmDetails');
-                      var farmDetails = FarmDetails.getData(jsonDecode(json));
-                      farmDetails = farmDetails.copyWith(
-                        farmName: farmName,
-                        farmLocation: farmLocation,
-                        farmSize: farmSize,
-                        unit: unit,
-                        stage: stage,
-                        soilPH: soilPH,
-                        soilType: soilType,
-                        soilPropertyDetails: soilPropertyDetails,
-                      );
-                      if (json.isNotEmpty) return;
-                      LocalStorage().setString(
-                        'farmDetails',
-                        jsonEncode(farmDetails.getMap()),
-                      );
                       if (context.mounted) {
                         Navigator.push(
                           context,
                           MaterialPageRoute(
-                            builder: (context) => FarmPage(farms: farmDetails),
+                            builder: (context) => FarmPage(
+                              farms: model.getFarmDetails(),
+                            ),
                           ),
                         );
                       }

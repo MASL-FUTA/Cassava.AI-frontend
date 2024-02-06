@@ -217,13 +217,11 @@ class AddFarmPage1 extends StackedHookView<FarmViewModel> {
                   ),
                 ),
                 onPressed: () {
-                  var farmDetails = FarmDetails(
-                    farmName: model.farmNameController.text,
-                    farmLocation: model.farmLocationController.text,
-                    farmSize: model.farmSizeController.text,
-                    unit: model.selectedUnit,
-                    stage: model.selectedStage,
-                  );
+                  if(model.farmNameController.text.trim().isEmpty) return;
+                  if(model.farmLocationController.text.trim().isEmpty) return;
+                  if(model.farmSizeController.text.trim().isEmpty) return;
+                  if(model.selectedUnit.isEmpty) return;
+                  if(model.selectedStage.isEmpty) return;
 
                   pageController.nextPage(
                     duration: const Duration(milliseconds: 500),

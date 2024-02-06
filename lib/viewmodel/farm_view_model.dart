@@ -5,8 +5,9 @@ import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/soil_properties_page.dart';
 import 'package:stacked/stacked.dart';
 
-class FarmViewModel extends BaseViewModel{
+class FarmViewModel extends BaseViewModel {
   FarmDetails _farmDetails = FarmDetails();
+
   FarmDetails get farmDetails => _farmDetails;
   String _selectedUnit = 'Plots';
   String _selectedStage = 'Planting Stage';
@@ -20,17 +21,26 @@ class FarmViewModel extends BaseViewModel{
   String _selectedSalinity = "";
   String _selectedErosionStatus = "";
 
-  String get selectedSoilTexture=> _selectedSoilTexture;
-  String get selectedSoilMoisture=> _selectedSoilMoisture;
-  String get selectedDrainage=> _selectedDrainage;
-  String get selectedOrganicMatter=> _selectedOrganicMatter;
-  String get selectedSalinity=> _selectedSalinity;
-  String get selectedErosionStatus=> _selectedErosionStatus;
+  String get selectedSoilTexture => _selectedSoilTexture;
+
+  String get selectedSoilMoisture => _selectedSoilMoisture;
+
+  String get selectedDrainage => _selectedDrainage;
+
+  String get selectedOrganicMatter => _selectedOrganicMatter;
+
+  String get selectedSalinity => _selectedSalinity;
+
+  String get selectedErosionStatus => _selectedErosionStatus;
 
   String get selectedUnit => _selectedUnit;
+
   String get selectedStage => _selectedStage;
+
   String get soilPH => _soilPH;
+
   String get soilType => _soilType;
+
   String get selectedSoil => _selectedSoil;
 
   TextEditingController _soilPHContoller = TextEditingController();
@@ -39,8 +49,11 @@ class FarmViewModel extends BaseViewModel{
   TextEditingController _farmNameController = TextEditingController();
 
   TextEditingController get farmLocationController => _farmLocationController;
+
   TextEditingController get farmSizeController => _farmSizeController;
+
   TextEditingController get farmNameController => _farmNameController;
+
   TextEditingController get soilPHContoller => _soilPHContoller;
 
   final List<Question> questions = [
@@ -80,88 +93,103 @@ class FarmViewModel extends BaseViewModel{
 
   Map<String, String> get farAnswers => _farAnswers;
 
-  setFarmAnswers(Map<String, String> input){
+  setFarmAnswers(Map<String, String> input) {
     _farAnswers = input;
     log("message ****************** $input");
     notifyListeners();
   }
 
-  setFarmDetails(FarmDetails input){
-    _farmDetails = input;
-    notifyListeners();
+  FarmDetails getFarmDetails() {
+    return _farmDetails = FarmDetails(
+      farmName: _farmNameController.text.trim(),
+      farmLocation: _farmLocationController.text.trim(),
+      farmSize: _farmSizeController.text.trim(),
+      unit: _selectedUnit,
+      stage: _selectedStage,
+      soilPH: _soilPH,
+      soilType: _soilType,
+      soilPropertyDetails: SoilPropertyDetails(
+        soilTexture: _selectedSoilTexture,
+        soilMoisture: _selectedSoilMoisture,
+        drainage: _selectedDrainage,
+        organicMatter: _selectedOrganicMatter,
+        salinity: _selectedSalinity,
+        erosionStatus: _selectedErosionStatus,
+      ),
+    );
   }
 
-  setSoilPHContoller(TextEditingController input){
+  setSoilPHContoller(TextEditingController input) {
     _soilPHContoller = input;
     notifyListeners();
   }
 
-  setFarmLocationController(TextEditingController input){
+  setFarmLocationController(TextEditingController input) {
     _farmLocationController = input;
     notifyListeners();
   }
 
-  setFarmSizeController(TextEditingController input){
+  setFarmSizeController(TextEditingController input) {
     _farmSizeController = input;
     notifyListeners();
   }
 
-  setFarmNameController(TextEditingController input){
+  setFarmNameController(TextEditingController input) {
     _farmNameController = input;
     notifyListeners();
   }
 
-  setSelectedUnit(String input){
+  setSelectedUnit(String input) {
     _selectedUnit = input;
     notifyListeners();
   }
 
-  setSelectedStage(String input){
+  setSelectedStage(String input) {
     _selectedStage = input;
     notifyListeners();
   }
 
-  setSoilPH(String input){
+  setSoilPH(String input) {
     _soilPH = input;
     notifyListeners();
   }
 
-  setSoilType(String input){
+  setSoilType(String input) {
     _soilType = input;
     notifyListeners();
   }
 
-  setSelectedSoil(String input){
+  setSelectedSoil(String input) {
     _selectedSoil = input;
     notifyListeners();
   }
 
-  setSelectedSoilTexture(String input){
+  setSelectedSoilTexture(String input) {
     _selectedSoilTexture = input;
     notifyListeners();
   }
 
-  setSelectedSoilMoisture(String input){
+  setSelectedSoilMoisture(String input) {
     _selectedSoilMoisture = input;
     notifyListeners();
   }
 
-  setSelectedDrainage(String input){
+  setSelectedDrainage(String input) {
     _selectedDrainage = input;
     notifyListeners();
   }
 
-  setSelectedOrganicMatter(String input){
+  setSelectedOrganicMatter(String input) {
     _selectedOrganicMatter = input;
     notifyListeners();
   }
 
-  setSelectedSalinity(String input){
+  setSelectedSalinity(String input) {
     _selectedSalinity = input;
     notifyListeners();
   }
 
-  setSelectedErosionStatus(String input){
+  setSelectedErosionStatus(String input) {
     _selectedErosionStatus = input;
     notifyListeners();
   }

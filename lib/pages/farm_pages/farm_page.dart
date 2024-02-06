@@ -8,24 +8,17 @@ import 'package:shared_preferences/shared_preferences.dart';
 
 class FarmPage extends StatelessWidget {
   final FarmDetails farms;
+
   const FarmPage({Key? key, required this.farms}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    debugPrint('FarmPage - FarmDetails: $farms');
-    return BlocBuilder<FarmListBloc, FarmListState>(
-      builder: (context, state) {
-        debugPrint('FarmPage State: $state');
-        switch (state.runtimeType) {
-          case EmptyFarmListState:
-            return const EmptyFarmListPage();
-          case NonEmptyFarmListState:
-            return FarmListPage(farms: (state as NonEmptyFarmListState).farms);
-          default:
-            return loadingFarmListPage();
-        }
-      },
-    );
+    debugPrint('FarmPage - FarmDetails: ${farms.getMap()}');
+    if (farms.farmName.isEmpty) {
+      return const EmptyFarmListPage();
+    } else {
+      return FarmListPage(farms: [farms]);
+    }
   }
 }
 
