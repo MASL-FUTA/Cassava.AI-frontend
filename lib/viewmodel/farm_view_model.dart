@@ -93,9 +93,16 @@ class FarmViewModel extends BaseViewModel {
 
   Map<String, String> get farAnswers => _farAnswers;
 
+  int _currentPage = 0;
+  int get currentPage => _currentPage;
+
   setFarmAnswers(Map<String, String> input) {
     _farAnswers = input;
-    log("message ****************** $input");
+    notifyListeners();
+  }
+
+  setCurrentPage(int input) {
+    _currentPage = input;
     notifyListeners();
   }
 

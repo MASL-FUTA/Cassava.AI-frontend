@@ -37,49 +37,51 @@ class SoilInformationPage extends StackedHookView<FarmViewModel> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: model.soilPHContoller,
-              decoration: const InputDecoration(
-                labelText: 'Soil pH',
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.all(Radius.circular(10.0)),
-                ),
-              ),
-            ),
-            const SizedBox(height: 20),
-            const FarmSoil(),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: 331,
-              height: 56,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff026742),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: model.soilPHContoller,
+                decoration: const InputDecoration(
+                  labelText: 'Soil pH',
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.all(Radius.circular(10.0)),
                   ),
                 ),
-                onPressed: () async {
-                  if(model.soilPHContoller.text.trim().isEmpty) return;
-                  if(model.selectedSoil.isEmpty) return;
-                  pageController.nextPage(
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.linear,
-                  );
-                },
-                child: const Text(
-                  'Proceed',
-                  style: TextStyle(color: Colors.white),
-                ), // Added child to ElevatedButton
               ),
-            ),
-          ],
+              const SizedBox(height: 20),
+              const FarmSoil(),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: 331,
+                height: 56,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff026742),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
+                  onPressed: () async {
+                    if(model.soilPHContoller.text.trim().isEmpty) return;
+                    if(model.selectedSoil.isEmpty) return;
+                    pageController.nextPage(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.linear,
+                    );
+                  },
+                  child: const Text(
+                    'Proceed',
+                    style: TextStyle(color: Colors.white),
+                  ), // Added child to ElevatedButton
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

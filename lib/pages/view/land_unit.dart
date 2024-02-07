@@ -14,8 +14,11 @@ class LandUnits extends StackedHookView<FarmViewModel> {
             model.setSelectedUnit('Plots');
           },
           child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+            margin: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
+              borderRadius: BorderRadius.circular(6),
+              border: Border.all(),
               color: model.selectedUnit == 'Plots'
                   ? Color(0xff026742)
                   : Color(0xffF7F8F9),
@@ -37,8 +40,11 @@ class LandUnits extends StackedHookView<FarmViewModel> {
             model.setSelectedUnit("Acres");
           },
           child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+            margin: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
+              border: Border.all(),
+              borderRadius: BorderRadius.circular(6),
               color: model.selectedUnit == 'Acres'
                   ? Color(0xff026742)
                   : Color(0xffF7F8F9),
@@ -60,8 +66,11 @@ class LandUnits extends StackedHookView<FarmViewModel> {
             model.setSelectedUnit('Hectares');
           },
           child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 2),
+            margin: const EdgeInsets.all(4),
             decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(10.0),
+              border: Border.all(),
+              borderRadius: BorderRadius.circular(6),
               color: model.selectedUnit == 'Hectares'
                   ? Color(0xff026742)
                   : Color(0xffF7F8F9),

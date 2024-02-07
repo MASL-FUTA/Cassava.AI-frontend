@@ -15,6 +15,8 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
 
 class AddFarmPage extends StatefulWidget {
+  const AddFarmPage({super.key});
+
   @override
   State<AddFarmPage> createState() => _AddFarmPageState();
 }
@@ -29,29 +31,23 @@ class _AddFarmPageState extends State<AddFarmPage> {
       viewModelBuilder: () => FarmViewModel(),
       builder: (BuildContext context, FarmViewModel model, _) {
         return Scaffold(
+          appBar: AppBar(
+            automaticallyImplyLeading: false,
+            centerTitle: true,
+            title: const PageIndicator(),
+          ),
           body: SafeArea(
-            child: Column(
+            child: PageView(
+              physics: const NeverScrollableScrollPhysics(),
+              controller: pageController,
+              onPageChanged: (index) => model.setCurrentPage(index),
               children: [
-                PageIndicator(pageCount: 3, currentPage: currentPage),
-                Expanded(
-                  child: PageView(
-                    physics: const NeverScrollableScrollPhysics(),
-                    controller: pageController,
-                    onPageChanged: (index) {
-                      setState(() {
-                        currentPage = index;
-                      });
-                    },
-                    children: [
-                      // Page 1
-                      AddFarmPage1(pageController: pageController),
-                      // Page 2
-                      SoilInformationPage(pageController: pageController),
-                      //Page 3
-                      SoilPropertyPage(pageController: pageController),
-                    ],
-                  ),
-                ),
+                // Page 1
+                AddFarmPage1(pageController: pageController),
+                // Page 2
+                SoilInformationPage(pageController: pageController),
+                //Page 3
+                SoilPropertyPage(pageController: pageController),
               ],
             ),
           ),
@@ -61,19 +57,17 @@ class _AddFarmPageState extends State<AddFarmPage> {
   }
 }
 
-class PageIndicator extends StatelessWidget {
-  final int pageCount;
-  final int currentPage;
+class PageIndicator extends StackedHookView<FarmViewModel> {
 
-  PageIndicator({required this.pageCount, required this.currentPage});
+  const PageIndicator({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget builder(BuildContext context, FarmViewModel model) {
     return Container(
       padding: const EdgeInsets.all(16.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
-        children: List.generate(pageCount, (index) {
+        children: List.generate(3, (index) {
           return Expanded(
             child: Container(
               margin: const EdgeInsets.symmetric(horizontal: 8.0),
@@ -81,9 +75,9 @@ class PageIndicator extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(
                 shape: BoxShape.rectangle,
-                color: index == currentPage
-                    ? Color(0xffE7EEB0)
-                    : Color(0xff026742),
+                color: index == model.currentPage
+                    ? const Color(0xffE7EEB0)
+                    : const Color(0xff026742),
               ),
             ),
           );
@@ -117,127 +111,130 @@ class AddFarmPage1 extends StackedHookView<FarmViewModel> {
           ),
         ),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const Center(
-              child: Text(
-                'Add New Farm',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xff4C586F)),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const Center(
+                child: Text(
+                  'Add New Farm',
+                  style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: Color(0xff4C586F)),
+                ),
               ),
-            ),
-            const SizedBox(height: 16),
-            TextFormField(
-              controller: model.farmNameController,
-              decoration: InputDecoration(
-                labelText: 'Enter Farm Name',
-                labelStyle: const TextStyle(
+              const SizedBox(height: 16),
+              TextFormField(
+                controller: model.farmNameController,
+                decoration: InputDecoration(
+                  labelText: 'Enter Farm Name',
+                  labelStyle: const TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: Color(0xff7988A4)),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: const Color(0xffF7F8F9),
+                ),
+              ),
+              const SizedBox(height: 20),
+              TextFormField(
+                controller: model.farmLocationController,
+                decoration: InputDecoration(
+                  labelText: 'Enter Farm Location',
+                  labelStyle: const TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.w400,
-                    color: Color(0xff7988A4)),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
+                    color: Color(0xff7988A4),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  filled: true,
+                  fillColor: const Color(0xffF7F8F9),
                 ),
-                filled: true,
-                fillColor: const Color(0xffF7F8F9),
               ),
-            ),
-            const SizedBox(height: 20),
-            TextFormField(
-              controller: model.farmLocationController,
-              decoration: InputDecoration(
-                labelText: 'Enter Farm Location',
-                labelStyle: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
-                  color: Color(0xff7988A4),
-                ),
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(10.0),
-                ),
-                filled: true,
-                fillColor: const Color(0xffF7F8F9),
-              ),
-            ),
-            const SizedBox(height: 20),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: <Widget>[
-                Expanded(
-                  child: TextFormField(
-                    controller: model.farmSizeController,
-                    decoration: InputDecoration(
-                      labelText: 'Farm Size ?',
-                      labelStyle: const TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w400,
-                          color: Color(0xff7988A4)),
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(10.0),
+              const SizedBox(height: 20),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: <Widget>[
+                  Expanded(
+                    child: TextFormField(
+                      controller: model.farmSizeController,
+                      decoration: InputDecoration(
+                        labelText: 'Farm Size ?',
+                        labelStyle: const TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Color(0xff7988A4)),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(10.0),
+                        ),
+                        filled: true,
+                        fillColor: const Color(0xffF7F8F9),
                       ),
-                      filled: true,
-                      fillColor: const Color(0xffF7F8F9),
                     ),
                   ),
-                ),
-                const SizedBox(width: 10),
-                const Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        'Unit',
-                        style: TextStyle(
-                            fontWeight: FontWeight.w400,
-                            color: Color(0xff7988A4),
-                            fontSize: 14),
-                      ),
-                      LandUnits(),
-                    ],
+                  const SizedBox(width: 10),
+                  const Expanded(
+                    flex: 2,
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Unit',
+                          style: TextStyle(
+                              fontWeight: FontWeight.w400,
+                              color: Color(0xff7988A4),
+                              fontSize: 14),
+                        ),
+                        LandUnits(),
+                      ],
+                    ),
                   ),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            const PlantStages(),
-            const SizedBox(height: 32),
-            SizedBox(
-              width: 331,
-              height: 56,
-              child: ElevatedButton(
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xff026742),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+                ],
+              ),
+              const SizedBox(height: 20),
+              const PlantStages(),
+              const SizedBox(height: 32),
+              SizedBox(
+                width: 331,
+                height: 56,
+                child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: const Color(0xff026742),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
                   ),
-                ),
-                onPressed: () {
-                  if(model.farmNameController.text.trim().isEmpty) return;
-                  if(model.farmLocationController.text.trim().isEmpty) return;
-                  if(model.farmSizeController.text.trim().isEmpty) return;
-                  if(model.selectedUnit.isEmpty) return;
-                  if(model.selectedStage.isEmpty) return;
-
-                  pageController.nextPage(
-                    duration: const Duration(milliseconds: 500),
-                    curve: Curves.linear,
-                  );
-                },
-                child: const Text(
-                  'Proceed',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 14,
-                      fontWeight: FontWeight.w600),
+                  onPressed: () {
+                    if(model.farmNameController.text.trim().isEmpty) return;
+                    if(model.farmLocationController.text.trim().isEmpty) return;
+                    if(model.farmSizeController.text.trim().isEmpty) return;
+                    if(model.selectedUnit.isEmpty) return;
+                    if(model.selectedStage.isEmpty) return;
+        
+                    pageController.nextPage(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.linear,
+                    );
+                  },
+                  child: const Text(
+                    'Proceed',
+                    style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600),
+                  ),
                 ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

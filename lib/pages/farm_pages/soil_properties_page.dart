@@ -32,51 +32,53 @@ class SoilPropertyPage extends StackedHookView<FarmViewModel> {
           ),
         ),
       ),
-      body: Stack(
-        children: [
-          const SoilQuestions(),
-          Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: SizedBox(
-                height: 56,
-                width: 331,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xff026742),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+      body: SingleChildScrollView(
+        child: Stack(
+          children: [
+            const SoilQuestions(),
+            Positioned(
+              bottom: 0,
+              left: 0,
+              right: 0,
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: SizedBox(
+                  height: 56,
+                  width: 331,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xff026742),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
                     ),
-                  ),
-                  onPressed: () async {
-                    try {
-                      if (context.mounted) {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => FarmPage(
-                              farms: model.getFarmDetails(),
+                    onPressed: () async {
+                      try {
+                        if (context.mounted) {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => FarmPage(
+                                farms: model.getFarmDetails(),
+                              ),
                             ),
-                          ),
-                        );
+                          );
+                        }
+                      } catch (e) {
+                        // Handle exceptions
+                        debugPrint('Error: $e');
                       }
-                    } catch (e) {
-                      // Handle exceptions
-                      debugPrint('Error: $e');
-                    }
-                  },
-                  child: const Text(
-                    'Create Farm',
-                    style: TextStyle(color: Colors.white),
+                    },
+                    child: const Text(
+                      'Create Farm',
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
