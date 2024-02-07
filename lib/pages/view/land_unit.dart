@@ -20,8 +20,8 @@ class LandUnits extends StackedHookView<FarmViewModel> {
               borderRadius: BorderRadius.circular(6),
               border: Border.all(),
               color: model.selectedUnit == 'Plots'
-                  ? Color(0xff026742)
-                  : Color(0xffF7F8F9),
+                  ? const Color(0xff026742)
+                  : const Color(0xffF7F8F9),
             ),
             child: Text(
               'Plots',
@@ -30,7 +30,7 @@ class LandUnits extends StackedHookView<FarmViewModel> {
                 fontWeight: FontWeight.w400,
                 color: model.selectedUnit == 'Plots'
                     ? Colors.white
-                    : Color(0xff026742),
+                    : const Color(0xff026742),
               ),
             ),
           ),
@@ -46,8 +46,8 @@ class LandUnits extends StackedHookView<FarmViewModel> {
               border: Border.all(),
               borderRadius: BorderRadius.circular(6),
               color: model.selectedUnit == 'Acres'
-                  ? Color(0xff026742)
-                  : Color(0xffF7F8F9),
+                  ? const Color(0xff026742)
+                  : const Color(0xffF7F8F9),
             ),
             child: Text(
               'Acres',
@@ -56,7 +56,7 @@ class LandUnits extends StackedHookView<FarmViewModel> {
                 fontWeight: FontWeight.w400,
                 color: model.selectedUnit == 'Acres'
                     ? Colors.white
-                    : Color(0xff026742),
+                    : const Color(0xff026742),
               ),
             ),
           ),
@@ -72,8 +72,8 @@ class LandUnits extends StackedHookView<FarmViewModel> {
               border: Border.all(),
               borderRadius: BorderRadius.circular(6),
               color: model.selectedUnit == 'Hectares'
-                  ? Color(0xff026742)
-                  : Color(0xffF7F8F9),
+                  ? const Color(0xff026742)
+                  : const Color(0xffF7F8F9),
             ),
             child: Text(
               'Hectares',
@@ -82,7 +82,7 @@ class LandUnits extends StackedHookView<FarmViewModel> {
                 fontWeight: FontWeight.w400,
                 color: model.selectedUnit == 'Hectares'
                     ? Colors.white
-                    : Color(0xff026742),
+                    : const Color(0xff026742),
               ),
             ),
           ),
