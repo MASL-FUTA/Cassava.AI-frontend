@@ -52,22 +52,8 @@ class SoilPropertyPage extends StackedHookView<FarmViewModel> {
                         borderRadius: BorderRadius.circular(10),
                       ),
                     ),
-                    onPressed: () async {
-                      try {
-                        if (context.mounted) {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => FarmPage(
-                                farms: model.getFarmDetails(),
-                              ),
-                            ),
-                          );
-                        }
-                      } catch (e) {
-                        // Handle exceptions
-                        debugPrint('Error: $e');
-                      }
+                    onPressed: () {
+                      model.saveFarmDetails(context);
                     },
                     child: const Text(
                       'Create Farm',

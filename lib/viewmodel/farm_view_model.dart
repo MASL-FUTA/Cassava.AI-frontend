@@ -1,8 +1,11 @@
+import 'dart:convert';
 import 'dart:developer';
 
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
+import 'package:masl_futa_agric/pages/farm_pages/dashboard_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/soil_properties_page.dart';
+import 'package:masl_futa_agric/service/local_storage.dart';
 import 'package:stacked/stacked.dart';
 
 class FarmViewModel extends BaseViewModel {
@@ -94,6 +97,7 @@ class FarmViewModel extends BaseViewModel {
   Map<String, String> get farAnswers => _farAnswers;
 
   int _currentPage = 0;
+
   int get currentPage => _currentPage;
 
   setFarmAnswers(Map<String, String> input) {
@@ -107,7 +111,7 @@ class FarmViewModel extends BaseViewModel {
   }
 
   FarmDetails getFarmDetails() {
-    return _farmDetails = FarmDetails(
+    return FarmDetails(
       farmName: _farmNameController.text.trim(),
       farmLocation: _farmLocationController.text.trim(),
       farmSize: _farmSizeController.text.trim(),
@@ -115,18 +119,10 @@ class FarmViewModel extends BaseViewModel {
       stage: _selectedStage,
       soilPH: _soilPH,
       soilType: _soilType,
-      soilPropertyDetails: SoilPropertyDetails(
-        soilTexture: _selectedSoilTexture,
-        soilMoisture: _selectedSoilMoisture,
-        drainage: _selectedDrainage,
-        organicMatter: _selectedOrganicMatter,
-        salinity: _selectedSalinity,
-        erosionStatus: _selectedErosionStatus,
-      ),
     );
   }
 
-  setSoilPHContoller(TextEditingController input) {
+  setSoilPHController(TextEditingController input) {
     _soilPHContoller = input;
     notifyListeners();
   }
@@ -199,5 +195,24 @@ class FarmViewModel extends BaseViewModel {
   setSelectedErosionStatus(String input) {
     _selectedErosionStatus = input;
     notifyListeners();
+  }
+
+  void saveFarmDetails(BuildContext context) async {
+    var data = getFarmDetails();
+    var previousFarms = await LocalStorage.getString('farmDetail');
+    if (previousFarms.isNotEmpty) {
+      List farms = jsonDecode(previousFarms);
+      var list = farms.map((e) => FarmDetails.getData(e).getMap()).toList();
+      list.add(data.getMap());
+      await LocalStorage.setString('farmDetail', jsonEncode(list));
+    } else {
+      await LocalStorage.setString('farmDetail', jsonEncode([data.getMap()]));
+    }
+    if (context.mounted) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => const DashboardPage(index: 1)),
+      );
+    }
   }
 }
