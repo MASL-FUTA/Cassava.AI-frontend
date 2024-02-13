@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:masl_futa_agric/pages/farm_pages/add_new_tasks_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
+import 'package:masl_futa_agric/viewmodel/farms_details_view_model.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_hooks/stacked_hooks.dart';
 
 class FullFarmViewPage extends StatelessWidget {
   final FarmDetails farm;
@@ -10,83 +13,84 @@ class FullFarmViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(farm.farmName),
-      ),
-      body: DefaultTabController(
-        length: 2,
-        child: Column(
+    return ViewModelBuilder<FarmDetailsViewModel>.nonReactive(
+      viewModelBuilder: ()=> FarmDetailsViewModel(),
+      builder: (_, model, __) {
+        return Scaffold(
+          appBar: AppBar(title: Text(farm.farmName)),
+          body: DefaultTabController(
+            length: 2,
+            child: Column(
+              children: [
+                FarmWeatherCard(farm: farm),
+                const TabBar(tabs: [Tab(text: 'Overview'), Tab(text: 'Task')]),
+                Expanded(
+                  child: TabBarView(
+                    children: [
+                      const Center(child: Text('Overview')),
+                      TaskPage(),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        );
+      }
+    );
+  }
+}
+
+class FarmWeatherCard extends StackedHookView<FarmDetailsViewModel> {
+  final FarmDetails farm;
+
+  const FarmWeatherCard({super.key, required this.farm});
+
+  @override
+  Widget builder(BuildContext context, FarmDetailsViewModel model) {
+    return Container(
+    );
+  }
+}
+
+
+class TaskPage extends StackedHookView<FarmDetailsViewModel> {
+  const TaskPage({super.key});
+
+  @override
+  Widget builder(BuildContext context, FarmDetailsViewModel model) {
+    return DefaultTabController(
+      length: 3,
+      child: Scaffold(
+        body: Column(
           children: [
-            FarmWeatherCard(farm: farm),
-            const TabBar(tabs: [Tab(text: 'Overview'), Tab(text: 'Task')]),
+            const TabBar(
+              tabs: [
+                Tab(text: 'Pending'),
+                Tab(text: 'Ongoing'),
+                Tab(text: 'Completed'),
+              ],
+            ),
             Expanded(
               child: TabBarView(
                 children: [
-                  const Center(child: Text('Overview')),
-                  TaskPage(),
+                  TaskListPage(status: 'Pending'),
+                  TaskListPage(status: 'Ongoing'),
+                  TaskListPage(status: 'Completed'),
                 ],
               ),
             ),
           ],
         ),
-      ),
-    );
-  }
-}
-
-class FarmWeatherCard extends StatelessWidget {
-  final FarmDetails farm;
-
-  FarmWeatherCard({super.key, required this.farm});
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      // Container showing weather information
-      // Add other farm information here
-    );
-  }
-}
-
-
-class TaskPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return DefaultTabController(
-      length: 3,
-      child: Column(
-        children: [
-          TabBar(
-            tabs: [
-              Tab(text: 'Pending'),
-              Tab(text: 'Ongoing'),
-              Tab(text: 'Completed'),
-            ],
-          ),
-          Expanded(
-            child: TabBarView(
-              children: [
-                // Pending Tasks Page
-                TaskListPage(status: 'Pending'),
-                // Ongoing Tasks Page
-                TaskListPage(status: 'Ongoing'),
-                // Completed Tasks Page
-                TaskListPage(status: 'Completed'),
-              ],
-            ),
-          ),
-          FloatingActionButton(
-            onPressed: () {
-              // Navigate to the Add New Task Page
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => AddNewTaskPage()),
-              );
-            },
-            child: Icon(Icons.add),
-          ),
-        ],
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => AddNewTaskPage()),
+            );
+          },
+          child: const Icon(Icons.add),
+        ),
       ),
     );
   }
