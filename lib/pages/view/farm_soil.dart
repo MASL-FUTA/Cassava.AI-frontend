@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:masl_futa_agric/viewmodel/farm_view_model.dart';
+import 'package:masl_futa_agric/viewmodel/add_farm_view_model.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
 
-class FarmSoil extends StackedHookView<FarmViewModel> {
+class FarmSoil extends StackedHookView<AddFarmViewModel> {
   const FarmSoil({super.key});
 
   @override
-  Widget builder(BuildContext context, FarmViewModel model) {
+  Widget builder(BuildContext context, AddFarmViewModel model) {
     return Container(
       width: 331,
       height: 56,

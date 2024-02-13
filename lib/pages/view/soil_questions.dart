@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:masl_futa_agric/pages/farm_pages/soil_properties_page.dart';
-import 'package:masl_futa_agric/viewmodel/farm_view_model.dart';
+import 'package:masl_futa_agric/viewmodel/add_farm_view_model.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
 
-class SoilQuestions extends StackedHookView<FarmViewModel> {
+class SoilQuestions extends StackedHookView<AddFarmViewModel> {
   const SoilQuestions({super.key});
 
   @override
-  Widget builder(BuildContext context, FarmViewModel model) {
+  Widget builder(BuildContext context, AddFarmViewModel model) {
     var questions = model.questions;
 
     return SingleChildScrollView(
