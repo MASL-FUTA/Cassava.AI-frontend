@@ -85,8 +85,8 @@ class FarmDetailsViewModel extends BaseViewModel {
         'task${_farmDetails.farmName}${_farmDetails.farmLocation}');
     List tasks = jsonDecode(json);
     var list = tasks.map((e) => TaskModel.getData(e)).toList();
-    for(TaskModel m in list){
-      if(m.status == status) finalList.add(m);
+    for (TaskModel m in list) {
+      if (m.status == status) finalList.add(m);
     }
     return Future.value(finalList);
   }
@@ -114,9 +114,11 @@ class FarmDetailsViewModel extends BaseViewModel {
       var list = farms.map((e) => TaskModel.getData(e).getMap()).toList();
       list.add(task.getMap());
       await LocalStorage.setString(
-          'task${_farmDetails.farmName}${_farmDetails.farmLocation}', jsonEncode(list));
+          'task${_farmDetails.farmName}${_farmDetails.farmLocation}',
+          jsonEncode(list));
     } else {
-      await LocalStorage.setString('task${_farmDetails.farmName}${_farmDetails.farmLocation}',
+      await LocalStorage.setString(
+          'task${_farmDetails.farmName}${_farmDetails.farmLocation}',
           jsonEncode([task.getMap()]));
     }
     return true;
@@ -137,6 +139,7 @@ class FarmDetailsViewModel extends BaseViewModel {
       lastDate: DateTime.fromMillisecondsSinceEpoch(
         DateTime.now().millisecondsSinceEpoch + 100000000000,
       ),
+      initialDate: DateTime.now(),
     );
     if (picker != null) {
       _deadline = picker.millisecondsSinceEpoch.toString();

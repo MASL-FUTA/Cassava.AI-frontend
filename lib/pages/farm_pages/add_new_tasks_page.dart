@@ -1,10 +1,10 @@
+//import 'package:flutter/material.dart';
 import 'package:flutter/material.dart';
 import 'package:masl_futa_agric/pages/view/app_bar.dart';
 import 'package:masl_futa_agric/utils/colors.dart';
 import 'package:masl_futa_agric/viewmodel/farms_details_view_model.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
-
 import 'bloc/bloc/farm_bloc_bloc.dart';
 import 'farm_details_page.dart';
 
@@ -31,9 +31,16 @@ class AddNewTask extends StackedHookView<FarmDetailsViewModel> {
   @override
   Widget builder(BuildContext context, FarmDetailsViewModel model) {
     final defaultLeadingWidth = AppBarTheme.of(context).iconTheme?.size ?? 56.0;
-    return PopScope(
-      canPop: model.overlayShowing,
-      onPopInvoked: (_) => model.hideOverlay(),
+    return WillPopScope(
+      onWillPop: () {
+        if (model.overlayShowing) {
+          model.hideOverlay();
+          return Future.value(false);
+        }
+        return Future.value(true);
+      },
+      // canPop: model.overlayShowing,
+      // onPopInvoked: (_) => model.hideOverlay(),
       child: Scaffold(
         appBar: AppBar(
           leadingWidth: defaultLeadingWidth + 16,

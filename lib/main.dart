@@ -32,7 +32,8 @@ class MyApp extends StatelessWidget {
           useInheritedMediaQuery: true,
           title: 'Flutter Demo',
           theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF026742)),
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: const Color(0xFF026742)),
             useMaterial3: true,
           ),
           home: LoginPage(),
