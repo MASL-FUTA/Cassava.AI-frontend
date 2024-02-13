@@ -12,7 +12,7 @@ class Landing extends StatelessWidget {
             height: 250,
             width: 250,
             color: Colors.yellow,
-            child: Center(child: Text("Hello World")),
+            child: const Center(child: Text("Hello World")),
           ),
         ),
       ),
