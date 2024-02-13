@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:masl_futa_agric/pages/farm_pages/add_new_tasks_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
-import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
 import 'package:masl_futa_agric/pages/view/app_bar.dart';
+import 'package:masl_futa_agric/service/local_storage.dart';
 import 'package:masl_futa_agric/utils/colors.dart';
+import 'package:masl_futa_agric/utils/util.dart';
 import 'package:masl_futa_agric/viewmodel/farms_details_view_model.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
+
+import 'model/task_model.dart';
 
 class FullFarmViewPage extends StatelessWidget {
   final FarmDetails farm;
@@ -17,36 +20,36 @@ class FullFarmViewPage extends StatelessWidget {
   Widget build(BuildContext context) {
     final defaultLeadingWidth = AppBarTheme.of(context).iconTheme?.size ?? 56.0;
     return ViewModelBuilder<FarmDetailsViewModel>.nonReactive(
-        viewModelBuilder: () => FarmDetailsViewModel(),
-        builder: (_, model, __) {
-          return Scaffold(
-            appBar: AppBar(
-              leadingWidth: defaultLeadingWidth + 16,
-              leading: AppBackButton(
-                func: () => Navigator.pop(context),
-              ),
-              title: Text(farm.farmName),
+      viewModelBuilder: () => FarmDetailsViewModel(),
+      builder: (_, model, __) {
+        return Scaffold(
+          appBar: AppBar(
+            leadingWidth: defaultLeadingWidth + 16,
+            leading: AppBackButton(
+              func: () => Navigator.pop(context),
             ),
-            body: DefaultTabController(
-              length: 2,
-              child: Column(
-                children: [
-                  FarmWeatherCard(farm: farm),
-                  const TabBar(
-                      tabs: [Tab(text: 'Overview'), Tab(text: 'Task')]),
-                  const Expanded(
-                    child: TabBarView(
-                      children: [
-                        Center(child: Text('Overview')),
-                        TaskPage(),
-                      ],
-                    ),
+            title: Text(farm.farmName),
+          ),
+          body: DefaultTabController(
+            length: 2,
+            child: Column(
+              children: [
+                FarmWeatherCard(farm: farm),
+                const TabBar(tabs: [Tab(text: 'Overview'), Tab(text: 'Task')]),
+                const Expanded(
+                  child: TabBarView(
+                    children: [
+                      Center(child: Text('Overview')),
+                      TaskPage(),
+                    ],
                   ),
-                ],
-              ),
+                ),
+              ],
             ),
-          );
-        });
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -69,9 +72,9 @@ class TaskPage extends StackedHookView<FarmDetailsViewModel> {
     return DefaultTabController(
       length: 3,
       child: Scaffold(
-        body: Column(
+        body: const Column(
           children: [
-            const TabBar(
+            TabBar(
               tabs: [
                 Tab(text: 'Pending'),
                 Tab(text: 'Ongoing'),
@@ -81,9 +84,9 @@ class TaskPage extends StackedHookView<FarmDetailsViewModel> {
             Expanded(
               child: TabBarView(
                 children: [
-                  TaskListPage(status: 'Pending'),
-                  TaskListPage(status: 'Ongoing'),
-                  TaskListPage(status: 'Completed'),
+                  TaskListPage(status: 'pending'),
+                  TaskListPage(status: 'ongoing'),
+                  TaskListPage(status: 'completed'),
                 ],
               ),
             ),
@@ -94,33 +97,100 @@ class TaskPage extends StackedHookView<FarmDetailsViewModel> {
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddNewTaskPage(initModel: model)),
+              MaterialPageRoute(
+                builder: (context) => AddNewTaskPage(farm: model.farmDetails),
+              ),
             );
           },
-          child: const Icon(
-            Icons.add,
-          ),
+          child: const Icon(Icons.add),
         ),
       ),
     );
   }
 }
 
-class TaskListPage extends StatelessWidget {
+class TaskListPage extends StackedHookView<FarmDetailsViewModel> {
   final String status;
 
-  TaskListPage({required this.status});
+  const TaskListPage({super.key, required this.status});
 
   @override
-  Widget build(BuildContext context) {
-    // Add logic to fetch and display tasks based on the status
-    return ListView.builder(
-      itemCount: 5,
-      itemBuilder: (context, index) {
-        return Container(
-            // Task container with name, deadline, and priority
+  Widget builder(BuildContext context, FarmDetailsViewModel model) {
+    //LocalStorage.clear();
+    return FutureBuilder(
+      builder: (context, AsyncSnapshot<List<TaskModel>> snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(
+            child: SizedBox(
+              child: CircularProgressIndicator(color: AppColors.appColor),
+            ),
+          );
+        }
+        var taskList = snapshot.data ?? [];
+        return ListView.builder(
+          itemCount: taskList.length,
+          itemBuilder: (context, index) {
+            var data = taskList[index];
+            return Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.grey),
+              ),
+              padding: const EdgeInsets.all(16),
+              margin: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    data.title,
+                    style: const TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  const SizedBox(height: 8),
+                  Row(
+                    children: [
+                      const Text(
+                        'Deadline',
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: AppColors.appAccent,
+                        ),
+                        child: Text(
+                          Util.date2(data.deadline),
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ),
+                      const Spacer(),
+                      const Text(
+                        'Priority',
+                        style: TextStyle(fontSize: 12),
+                      ),
+                      const SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.all(4),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(6),
+                          color: Colors.grey,
+                        ),
+                        child: Text(
+                          data.priority,
+                          style: const TextStyle(fontSize: 12),
+                        ),
+                      ),
+                      const Spacer(),
+                    ],
+                  )
+                ],
+              ),
             );
+          },
+        );
       },
+      future: model.getFarmTasks(status),
     );
   }
 }
