@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:masl_futa_agric/pages/farm_pages/add_farm_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/farm_details_page.dart';
 import 'package:masl_futa_agric/service/local_storage.dart';
-import 'package:masl_futa_agric/viewmodel/FarmPageViewModel.dart';
+import 'package:masl_futa_agric/viewmodel/farms_list_view_model.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
 
@@ -11,8 +11,8 @@ class FarmPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<FarmPageViewModel>.nonReactive(
-      viewModelBuilder: () => FarmPageViewModel(),
+    return ViewModelBuilder<FarmListViewModel>.nonReactive(
+      viewModelBuilder: () => FarmListViewModel(),
       builder: (context, model, _) {
         model.getFarmDetailsFromLocal();
         return const FarmListPage();
@@ -71,11 +71,11 @@ class EmptyFarmListPage extends StatelessWidget {
   }
 }
 
-class FarmListPage extends StackedHookView<FarmPageViewModel> {
+class FarmListPage extends StackedHookView<FarmListViewModel> {
   const FarmListPage({Key? key}) : super(key: key);
 
   @override
-  Widget builder(BuildContext context, FarmPageViewModel model) {
+  Widget builder(BuildContext context, FarmListViewModel model) {
     if (model.farmDetails.isEmpty) {
       return const EmptyFarmListPage();
     } else {

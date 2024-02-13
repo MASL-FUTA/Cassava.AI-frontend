@@ -10,7 +10,7 @@ import 'package:masl_futa_agric/pages/view/app_bar.dart';
 import 'package:masl_futa_agric/pages/view/land_unit.dart';
 import 'package:masl_futa_agric/pages/view/plant_stages.dart';
 import 'package:masl_futa_agric/service/local_storage.dart';
-import 'package:masl_futa_agric/viewmodel/farm_view_model.dart';
+import 'package:masl_futa_agric/viewmodel/add_farm_view_model.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
 
@@ -27,9 +27,9 @@ class _AddFarmPageState extends State<AddFarmPage> {
 
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder<FarmViewModel>.nonReactive(
-      viewModelBuilder: () => FarmViewModel(),
-      builder: (BuildContext context, FarmViewModel model, _) {
+    return ViewModelBuilder<AddFarmViewModel>.nonReactive(
+      viewModelBuilder: () => AddFarmViewModel(),
+      builder: (BuildContext context, AddFarmViewModel model, _) {
         return Scaffold(
           appBar: AppBar(
             automaticallyImplyLeading: false,
@@ -57,12 +57,12 @@ class _AddFarmPageState extends State<AddFarmPage> {
   }
 }
 
-class PageIndicator extends StackedHookView<FarmViewModel> {
+class PageIndicator extends StackedHookView<AddFarmViewModel> {
 
   const PageIndicator({super.key});
 
   @override
-  Widget builder(BuildContext context, FarmViewModel model) {
+  Widget builder(BuildContext context, AddFarmViewModel model) {
     return Container(
       padding: const EdgeInsets.all(16.0),
       child: Row(
@@ -87,13 +87,13 @@ class PageIndicator extends StackedHookView<FarmViewModel> {
   }
 }
 
-class AddFarmPage1 extends StackedHookView<FarmViewModel> {
+class AddFarmPage1 extends StackedHookView<AddFarmViewModel> {
   final PageController pageController;
 
   const AddFarmPage1({super.key, required this.pageController});
 
   @override
-  Widget builder(BuildContext context, FarmViewModel model) {
+  Widget builder(BuildContext context, AddFarmViewModel model) {
     final defaultLeadingWidth = AppBarTheme.of(context).iconTheme?.size ?? 56.0;
     return Scaffold(
       appBar: AppBar(

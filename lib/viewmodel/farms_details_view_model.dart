@@ -4,7 +4,7 @@ import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/service/local_storage.dart';
 import 'package:stacked/stacked.dart';
 
-class FarmPageViewModel extends BaseViewModel {
+class FarmDetailsViewModel extends BaseViewModel {
   List<FarmDetails> _farmDetails = [];
   List<FarmDetails> get farmDetails => _farmDetails;
 

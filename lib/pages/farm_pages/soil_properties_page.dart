@@ -2,16 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:masl_futa_agric/pages/farm_pages/farm_page.dart';
 import 'package:masl_futa_agric/pages/view/app_bar.dart';
 import 'package:masl_futa_agric/pages/view/soil_questions.dart';
-import 'package:masl_futa_agric/viewmodel/farm_view_model.dart';
+import 'package:masl_futa_agric/viewmodel/add_farm_view_model.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
 
-class SoilPropertyPage extends StackedHookView<FarmViewModel> {
+class SoilPropertyPage extends StackedHookView<AddFarmViewModel> {
   final PageController pageController;
 
   const SoilPropertyPage({super.key, required this.pageController});
 
   @override
-  Widget builder(BuildContext context, FarmViewModel model) {
+  Widget builder(BuildContext context, AddFarmViewModel model) {
     final defaultLeadingWidth = AppBarTheme.of(context).iconTheme?.size ?? 56.0;
     return Scaffold(
       appBar: AppBar(
@@ -70,7 +70,7 @@ class SoilPropertyPage extends StackedHookView<FarmViewModel> {
   }
 }
 
-class SoilPropertyContainer extends StackedHookView<FarmViewModel> {
+class SoilPropertyContainer extends StackedHookView<AddFarmViewModel> {
   final Question question;
   final String? selectedOption;
   final ValueChanged<String?> onOptionSelected;
@@ -82,7 +82,7 @@ class SoilPropertyContainer extends StackedHookView<FarmViewModel> {
   });
 
   @override
-  Widget builder(BuildContext context, FarmViewModel model) {
+  Widget builder(BuildContext context, AddFarmViewModel model) {
     return Container(
       margin: const EdgeInsets.only(bottom: 16),
       padding: const EdgeInsets.all(16),

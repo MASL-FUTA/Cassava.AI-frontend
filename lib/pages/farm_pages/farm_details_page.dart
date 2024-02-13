@@ -4,43 +4,26 @@ import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
 
 class FullFarmViewPage extends StatelessWidget {
-  // Pass farm data to this page through constructor
   final FarmDetails farm;
 
-  FullFarmViewPage(this.farm);
+  const FullFarmViewPage(this.farm, {super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Full Farm View'),
+        title: Text(farm.farmName),
       ),
       body: DefaultTabController(
         length: 2,
         child: Column(
           children: [
             FarmWeatherCard(farm: farm),
-            Container(
-              // Container showing type of soil and pH
-              // Add other farm information here
-            ),
-            Text('Recommendation'),
-            Container(
-              // Container with title and text explaining the title
-              // Add other recommendation information here
-            ),
-            TabBar(
-              tabs: [
-                Tab(text: 'Overview'),
-                Tab(text: 'Task'),
-              ],
-            ),
+            const TabBar(tabs: [Tab(text: 'Overview'), Tab(text: 'Task')]),
             Expanded(
               child: TabBarView(
                 children: [
-                  // Overview Page (You can customize this)
-                  Center(child: Text('Overview')),
-                  // Task Page
+                  const Center(child: Text('Overview')),
                   TaskPage(),
                 ],
               ),
@@ -55,7 +38,7 @@ class FullFarmViewPage extends StatelessWidget {
 class FarmWeatherCard extends StatelessWidget {
   final FarmDetails farm;
 
-  FarmWeatherCard({required this.farm});
+  FarmWeatherCard({super.key, required this.farm});
 
   @override
   Widget build(BuildContext context) {

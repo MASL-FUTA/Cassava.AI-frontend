@@ -7,16 +7,16 @@ import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/view/app_bar.dart';
 import 'package:masl_futa_agric/pages/view/farm_soil.dart';
 import 'package:masl_futa_agric/service/local_storage.dart';
-import 'package:masl_futa_agric/viewmodel/farm_view_model.dart';
+import 'package:masl_futa_agric/viewmodel/add_farm_view_model.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
 
-class SoilInformationPage extends StackedHookView<FarmViewModel> {
+class SoilInformationPage extends StackedHookView<AddFarmViewModel> {
   final PageController pageController;
 
   const SoilInformationPage({super.key, required this.pageController});
 
   @override
-  Widget builder(BuildContext context, FarmViewModel model) {
+  Widget builder(BuildContext context, AddFarmViewModel model) {
     final defaultLeadingWidth = AppBarTheme.of(context).iconTheme?.size ?? 56.0;
     return Scaffold(
       appBar: AppBar(
