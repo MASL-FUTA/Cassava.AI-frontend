@@ -1,3 +1,4 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masl_futa_agric/pages/create_account_pages/login_page.dart';
@@ -25,13 +26,18 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF026742)),
-        useMaterial3: true,
-      ),
-      home: LoginPage(),
+    return DevicePreview(
+      builder: (BuildContext context) {
+        return MaterialApp(
+          useInheritedMediaQuery: true,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF026742)),
+            useMaterial3: true,
+          ),
+          home: LoginPage(),
+        );
+      },
     );
   }
 }

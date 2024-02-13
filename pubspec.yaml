@@ -49,6 +49,7 @@ dependencies:
   stacked: ^3.4.2
   stacked_hooks: ^0.2.3
   shared_preferences: ^2.2.2
+  device_preview: ^1.1.0
 
 dev_dependencies:
   flutter_test:

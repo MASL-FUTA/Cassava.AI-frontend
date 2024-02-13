@@ -58,7 +58,6 @@ class _AddFarmPageState extends State<AddFarmPage> {
 }
 
 class PageIndicator extends StackedHookView<AddFarmViewModel> {
-
   const PageIndicator({super.key});
 
   @override
@@ -121,9 +120,10 @@ class AddFarmPage1 extends StackedHookView<AddFarmViewModel> {
                 child: Text(
                   'Add New Farm',
                   style: TextStyle(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                      color: Color(0xff4C586F)),
+                    fontSize: 14,
+                    fontWeight: FontWeight.w700,
+                    color: Color(0xff4C586F),
+                  ),
                 ),
               ),
               const SizedBox(height: 16),
@@ -213,12 +213,13 @@ class AddFarmPage1 extends StackedHookView<AddFarmViewModel> {
                     ),
                   ),
                   onPressed: () {
-                    if(model.farmNameController.text.trim().isEmpty) return;
-                    if(model.farmLocationController.text.trim().isEmpty) return;
-                    if(model.farmSizeController.text.trim().isEmpty) return;
-                    if(model.selectedUnit.isEmpty) return;
-                    if(model.selectedStage.isEmpty) return;
-        
+                    if (model.farmNameController.text.trim().isEmpty) return;
+                    if (model.farmLocationController.text.trim().isEmpty)
+                      return;
+                    if (model.farmSizeController.text.trim().isEmpty) return;
+                    if (model.selectedUnit.isEmpty) return;
+                    if (model.selectedStage.isEmpty) return;
+
                     pageController.nextPage(
                       duration: const Duration(milliseconds: 500),
                       curve: Curves.linear,

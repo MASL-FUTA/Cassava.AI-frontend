@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:masl_futa_agric/pages/farm_pages/add_new_tasks_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
+import 'package:masl_futa_agric/pages/view/app_bar.dart';
+import 'package:masl_futa_agric/utils/colors.dart';
 import 'package:masl_futa_agric/viewmodel/farms_details_view_model.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
@@ -13,31 +15,38 @@ class FullFarmViewPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final defaultLeadingWidth = AppBarTheme.of(context).iconTheme?.size ?? 56.0;
     return ViewModelBuilder<FarmDetailsViewModel>.nonReactive(
-      viewModelBuilder: ()=> FarmDetailsViewModel(),
-      builder: (_, model, __) {
-        return Scaffold(
-          appBar: AppBar(title: Text(farm.farmName)),
-          body: DefaultTabController(
-            length: 2,
-            child: Column(
-              children: [
-                FarmWeatherCard(farm: farm),
-                const TabBar(tabs: [Tab(text: 'Overview'), Tab(text: 'Task')]),
-                Expanded(
-                  child: TabBarView(
-                    children: [
-                      const Center(child: Text('Overview')),
-                      TaskPage(),
-                    ],
-                  ),
-                ),
-              ],
+        viewModelBuilder: () => FarmDetailsViewModel(),
+        builder: (_, model, __) {
+          return Scaffold(
+            appBar: AppBar(
+              leadingWidth: defaultLeadingWidth + 16,
+              leading: AppBackButton(
+                func: () => Navigator.pop(context),
+              ),
+              title: Text(farm.farmName),
             ),
-          ),
-        );
-      }
-    );
+            body: DefaultTabController(
+              length: 2,
+              child: Column(
+                children: [
+                  FarmWeatherCard(farm: farm),
+                  const TabBar(
+                      tabs: [Tab(text: 'Overview'), Tab(text: 'Task')]),
+                  const Expanded(
+                    child: TabBarView(
+                      children: [
+                        Center(child: Text('Overview')),
+                        TaskPage(),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        });
   }
 }
 
@@ -48,11 +57,9 @@ class FarmWeatherCard extends StackedHookView<FarmDetailsViewModel> {
 
   @override
   Widget builder(BuildContext context, FarmDetailsViewModel model) {
-    return Container(
-    );
+    return Container();
   }
 }
-
 
 class TaskPage extends StackedHookView<FarmDetailsViewModel> {
   const TaskPage({super.key});
@@ -83,13 +90,16 @@ class TaskPage extends StackedHookView<FarmDetailsViewModel> {
           ],
         ),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: AppColors.appAccent,
           onPressed: () {
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => AddNewTaskPage()),
+              MaterialPageRoute(builder: (context) => AddNewTaskPage(initModel: model)),
             );
           },
-          child: const Icon(Icons.add),
+          child: const Icon(
+            Icons.add,
+          ),
         ),
       ),
     );
@@ -108,10 +118,9 @@ class TaskListPage extends StatelessWidget {
       itemCount: 5,
       itemBuilder: (context, index) {
         return Container(
-          // Task container with name, deadline, and priority
-        );
+            // Task container with name, deadline, and priority
+            );
       },
     );
   }
 }
-
