@@ -2,18 +2,15 @@ import 'package:flutter/material.dart';
 import 'package:masl_futa_agric/pages/farm_pages/add_new_tasks_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/view/app_bar.dart';
-import 'package:masl_futa_agric/service/local_storage.dart';
 import 'package:masl_futa_agric/utils/colors.dart';
 import 'package:masl_futa_agric/utils/util.dart';
 import 'package:masl_futa_agric/viewmodel/farms_details_view_model.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_hooks/stacked_hooks.dart';
-
 import 'model/task_model.dart';
 
 class FullFarmViewPage extends StatelessWidget {
   final FarmDetails farm;
-
   const FullFarmViewPage(this.farm, {super.key});
 
   @override
@@ -22,6 +19,7 @@ class FullFarmViewPage extends StatelessWidget {
     return ViewModelBuilder<FarmDetailsViewModel>.nonReactive(
       viewModelBuilder: () => FarmDetailsViewModel(),
       builder: (_, model, __) {
+        model.setFarmDetails(farm);
         return Scaffold(
           appBar: AppBar(
             leadingWidth: defaultLeadingWidth + 16,
@@ -131,6 +129,18 @@ class TaskListPage extends StackedHookView<FarmDetailsViewModel> {
           itemCount: taskList.length,
           itemBuilder: (context, index) {
             var data = taskList[index];
+            Color taskPriorityColor = Colors.transparent;
+            switch(data.priority.toLowerCase()){
+              case 'high':
+                taskPriorityColor = AppColors.highTask;
+                break;
+              case 'medium':
+                taskPriorityColor = AppColors.mediumTask;
+                break;
+              case 'low':
+                taskPriorityColor = AppColors.lowTask;
+                break;
+            }
             return Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(16),
@@ -174,7 +184,7 @@ class TaskListPage extends StackedHookView<FarmDetailsViewModel> {
                         padding: const EdgeInsets.all(4),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(6),
-                          color: Colors.grey,
+                          color: taskPriorityColor,
                         ),
                         child: Text(
                           data.priority,

@@ -4,6 +4,7 @@ import 'package:masl_futa_agric/enums/farm_task_status.dart';
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/model/task_model.dart';
 import 'package:masl_futa_agric/service/local_storage.dart';
+import 'package:masl_futa_agric/utils/colors.dart';
 import 'package:masl_futa_agric/utils/util.dart';
 import 'package:stacked/stacked.dart';
 
@@ -179,13 +180,13 @@ class FarmDetailsViewModel extends BaseViewModel {
                                   var color = Colors.transparent;
                                   switch (text.toLowerCase()) {
                                     case 'high':
-                                      color = const Color(0xFF00C44E);
+                                      color = AppColors.highTask;
                                       break;
                                     case 'medium':
-                                      color = const Color(0xFFE6C100);
+                                      color = AppColors.mediumTask;
                                       break;
                                     case 'low':
-                                      color = const Color(0xFFFF5656);
+                                      color = AppColors.lowTask;
                                       break;
                                   }
                                   return InkWell(

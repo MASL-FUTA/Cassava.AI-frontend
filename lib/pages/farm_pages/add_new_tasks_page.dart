@@ -159,7 +159,8 @@ class AddNewTask extends StackedHookView<FarmDetailsViewModel> {
               onPressed: () async {
                 var res = await model.saveTask();
                 if (res && context.mounted) {
-                  Navigator.push(
+                  Navigator.pop(context);
+                  Navigator.pushReplacement(
                     context,
                     MaterialPageRoute(
                       builder: (context) => FullFarmViewPage(model.farmDetails),
