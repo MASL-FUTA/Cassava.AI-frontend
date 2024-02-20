@@ -42,7 +42,7 @@ dependencies:
   hive: ^2.2.3
   hive_flutter: ^1.1.0
 
-  http: ^1.1.0
+  http: ^1.2.0
   equatable: ^2.0.5
   dio: 4.0.0
   camera: ^0.10.5+9
@@ -50,6 +50,7 @@ dependencies:
   stacked_hooks: ^0.2.3
   shared_preferences: ^2.2.2
   device_preview: ^1.1.0
+  fluttertoast: ^8.2.4
 
 dev_dependencies:
   flutter_test:
