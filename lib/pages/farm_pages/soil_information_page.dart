@@ -1,40 +1,51 @@
+import 'dart:convert';
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
-import 'package:masl_futa_agric/pages/farm_pages/soil_properties_page.dart';
+import 'package:masl_futa_agric/pages/view/app_bar.dart';
+import 'package:masl_futa_agric/pages/view/farm_soil.dart';
+import 'package:masl_futa_agric/service/local_storage.dart';
+import 'package:masl_futa_agric/viewmodel/add_farm_view_model.dart';
+import 'package:stacked_hooks/stacked_hooks.dart';
 
-class SoilInformationPage extends StatefulWidget {
-  @override
-  State<SoilInformationPage> createState() => _SoilInformationPageState();
-}
+class SoilInformationPage extends StackedHookView<AddFarmViewModel> {
+  final PageController pageController;
 
-class _SoilInformationPageState extends State<SoilInformationPage> {
-  String selectedSoil = 'Loamy soil';
-  TextEditingController soilPHContoller = TextEditingController();
+  const SoilInformationPage({super.key, required this.pageController});
+
   @override
-  Widget build(BuildContext context) {
-    final FarmDetailsBloc _farmDetailsBloc = context.read<FarmDetailsBloc>();
-    return BlocProvider(
-      create: (context) => _farmDetailsBloc,
-      child: Scaffold(
-        appBar: AppBar(
-          title: const Text('Soil Information'),
+  Widget builder(BuildContext context, AddFarmViewModel model) {
+    final defaultLeadingWidth = AppBarTheme.of(context).iconTheme?.size ?? 56.0;
+    return Scaffold(
+      appBar: AppBar(
+        leadingWidth: defaultLeadingWidth + 16,
+        leading: AppBackButton(
+          func: () => pageController.previousPage(
+            duration: const Duration(milliseconds: 500),
+            curve: Curves.linear,
+          ),
         ),
-        body: Padding(
+        centerTitle: true,
+        title: const Text(
+          'Soil Information',
+          style: TextStyle(
+            fontSize: 14,
+            fontWeight: FontWeight.w700,
+            color: Color(0xff4C586F),
+          ),
+        ),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
           padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const Text(
-                'Soil Information',
-                style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xff4C586F)),
-              ),
               const SizedBox(height: 16),
               TextFormField(
-                controller: soilPHContoller,
+                controller: model.soilPHContoller,
                 decoration: const InputDecoration(
                   labelText: 'Soil pH',
                   border: OutlineInputBorder(
@@ -42,47 +53,9 @@ class _SoilInformationPageState extends State<SoilInformationPage> {
                   ),
                 ),
               ),
-              const SizedBox(
-                height: 20,
-              ),
-              Container(
-                width: 331,
-                height: 56,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10.0),
-                  border: Border.all(
-                    color: const Color(0xffE8ECF4),
-                  ),
-                  color: const Color(0xffF7F8F9),
-                ),
-                child: DropdownButtonHideUnderline(
-                  child: DropdownButton<String>(
-                    value: selectedSoil,
-                    icon: const Icon(Icons.arrow_drop_down),
-                    iconSize: 20,
-                    elevation: 16,
-                    style: const TextStyle(color: Colors.black),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        selectedSoil = newValue ?? selectedSoil;
-                      });
-                    },
-                    items: <String>['Loamy soil', 'Sandy soil', 'clay soil']
-                        .map<DropdownMenuItem<String>>((String value) {
-                      return DropdownMenuItem<String>(
-                        value: value,
-                        child: Text(value),
-                      );
-                    }).toList(),
-                  ),
-                ),
-              ),
-
-              const SizedBox(
-                height: 20,
-              ),
-
-              // Other text fields as per your requirements
+              const SizedBox(height: 20),
+              const FarmSoil(),
+              const SizedBox(height: 20),
               SizedBox(
                 width: 331,
                 height: 56,
@@ -93,31 +66,13 @@ class _SoilInformationPageState extends State<SoilInformationPage> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                   ),
-
-                  onPressed: () {
-                    final farmDetailsState =
-                        context.read<FarmDetailsBloc>().state;
-                    final farmName = farmDetailsState.farmName;
-                    final farmLocation = farmDetailsState.farmLocation;
-                    final farmSize = farmDetailsState.farmSize;
-                    final unit = farmDetailsState.unit;
-                    final stage = farmDetailsState.stage;
-
-                    debugPrint(
-                        'farmName : $farmName, farmLocation: $farmLocation');
-
-                    _farmDetailsBloc.updateFarmDetails(
-                        farmName: farmName,
-                        farmLocation: farmLocation,
-                        farmSize: farmSize,
-                        unit: unit,
-                        stage: stage,
-                        soilPH: soilPHContoller.text,
-                        soilType: selectedSoil);
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => SoilPropertyPage()));
+                  onPressed: () async {
+                    if(model.soilPHContoller.text.trim().isEmpty) return;
+                    if(model.selectedSoil.isEmpty) return;
+                    pageController.nextPage(
+                      duration: const Duration(milliseconds: 500),
+                      curve: Curves.linear,
+                    );
                   },
                   child: const Text(
                     'Proceed',

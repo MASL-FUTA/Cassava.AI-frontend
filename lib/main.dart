@@ -1,27 +1,22 @@
+import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'package:masl_futa_agric/pages/create_account_pages/login_page.dart';
 import 'package:masl_futa_agric/pages/farm_pages/bloc/bloc/farm_bloc_bloc.dart';
-import 'package:masl_futa_agric/pages/farm_pages/farm_page.dart';
-import 'package:masl_futa_agric/pages/farm_pages/model/farm_model.dart';
 
-import 'package:masl_futa_agric/pages/onboardingScreen.dart';
-
-
-void main()  {
- 
-  runApp( MultiBlocProvider(
-    providers: [
-      BlocProvider(
-        create: (context) => FarmListBloc(),),
+void main() {
+  runApp(
+    MultiBlocProvider(
+      providers: [
         BlocProvider(
-        create: (context) => FarmDetailsBloc(),),
-    ],
-    
-        child:  MyApp(),
-      ),
+          create: (context) => FarmListBloc(),
+        ),
+        BlocProvider(
+          create: (context) => FarmDetailsBloc(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
   );
 }
 
@@ -31,21 +26,23 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-        title: 'Flutter Demo',
-        theme: ThemeData(
-         
-          colorScheme: ColorScheme.fromSeed(seedColor:  Color(0xFF026742)),
-          useMaterial3: true,
-        ),
-        home: LoginPage(),
-      );
+    return DevicePreview(
+      builder: (BuildContext context) {
+        return MaterialApp(
+          useInheritedMediaQuery: true,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF026742)),
+            useMaterial3: true,
+          ),
+          home: LoginPage(),
+        );
+      },
+    );
   }
 }
 
-    
-
-
+// IGNORE
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
 
