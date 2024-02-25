@@ -26,12 +26,25 @@ class AuthRepo {
     }
   }
 
-  static Future<AuthResponse> signUp(String email, String password) async {
+  static Future<AuthResponse> signUp(
+    String email,
+    String password,
+    String firstname,
+    String lastname,
+    String username,
+  ) async {
     var request = http.Request(
       'POST',
       Uri.parse('https://cassavaai.onrender.com/auth/register'),
     );
-    request.body = jsonEncode({"email": email, "password": password});
+    request.body = jsonEncode({
+      "email": email,
+      "password": password,
+      "firstname": firstname,
+      "lastname": lastname,
+      "username": username,
+      "farms": []
+    });
     http.StreamedResponse response = await request.send();
 
     if (response.statusCode == 200) {
@@ -40,7 +53,7 @@ class AuthRepo {
     } else {
       return Future.value(AuthResponse(
         success: false,
-        message: response.reasonPhrase ?? 'Failed',
+        message: response.reasonPhrase! + response.statusCode.toString() ?? 'Failed',
       ));
     }
   }

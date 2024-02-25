@@ -119,7 +119,7 @@ class _RegistrationPageState extends State<RegistrationPage> {
                       ),
                       const SizedBox(height: 32),
                       SizedBox(
-                        width: 331,
+                        width: double.infinity,
                         height: 56,
                         child: ElevatedButton(
                           onPressed: () => model.signUp(context),

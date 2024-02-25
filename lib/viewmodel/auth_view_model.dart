@@ -8,6 +8,7 @@ import 'package:stacked/stacked.dart';
 
 class AUthViewModel extends BaseViewModel {
   TextEditingController _emailController = TextEditingController();
+
   TextEditingController get emailController => _emailController;
 
   TextEditingController _passwordController = TextEditingController();
@@ -15,11 +16,14 @@ class AUthViewModel extends BaseViewModel {
   TextEditingController get passwordController => _passwordController;
 
   TextEditingController _nameController = TextEditingController();
-  TextEditingController get nameController=> _nameController;
+
+  TextEditingController get nameController => _nameController;
   TextEditingController _cPasswordController = TextEditingController();
-  TextEditingController get cPasswordController=> _cPasswordController;
+
+  TextEditingController get cPasswordController => _cPasswordController;
 
   bool _loading = false;
+
   bool get loading => _loading;
 
   signIn(BuildContext context) async {
@@ -54,7 +58,7 @@ class AUthViewModel extends BaseViewModel {
     String name = nameController.text.trim();
     String email = emailController.text.trim();
     String password = passwordController.text.trim();
-    String confirmPassword =cPasswordController.text.trim();
+    String confirmPassword = cPasswordController.text.trim();
 
 
     if (name.isEmpty) {
@@ -83,7 +87,9 @@ class AUthViewModel extends BaseViewModel {
     if (password.isEmpty) {
       return;
     }
-    var res = await AuthRepo.signUp(email, password);
+    setLoading(true);
+    var res = await AuthRepo.signUp(email, password, name, name, name);
+    setLoading(false);
     if (res.success && context.mounted) {
       Navigator.push(
         context,
